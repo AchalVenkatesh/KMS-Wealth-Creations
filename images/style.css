@@ -1,0 +1,884 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 3px 0;
+    text-align: left;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+header .logo {
+    width: 120px;
+    margin-right: 20px;
+}
+
+.company-info {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px;
+}
+
+.company-info h1{
+    margin-bottom: 0;
+}
+
+.slogan {
+    font-size: 1.2em;
+    margin-top: 5px;
+    margin-bottom: 0;
+
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+h1, h2, p {
+    margin: 0 0 20px;
+}
+
+section {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.webinar {
+    background-color: #27ae60;
+    color: white;
+}
+
+.webinar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.webinar-info {
+    flex: 1;
+    min-width: 300px;
+}
+
+.webinar h2 {
+    font-size: 2.5em;
+}
+
+.webinar .quote {
+    font-size: 1.5em;
+}
+
+.webinar p {
+    font-size: 1.2em;
+}
+
+.webinar-video {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.webinar-video iframe {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+
+.register {
+    background-color: #feb300;
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.register:hover {
+    background-color: #5b4f03;
+}
+
+.why-attend ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.why-attend ul li {
+    margin: 10px 0;
+}
+
+.limited-spots {
+    background-color: #f13c3c;
+    color: white;
+}
+
+.testimonials {
+    background-color: white;
+    color: #333;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+footer a {
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer .social-media {
+    margin: 10px 0;
+}
+
+#webinar-schedule {
+      display: flex;
+      color: black;
+      justify-content: space-between;
+      flex-wrap: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+      margin-top: 2.5rem;
+}
+
+.grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
+      gap: 1.25rem;
+}
+
+.component {
+        background-color: #fff5d7;
+        width: 100%;
+      padding: 1.25rem;
+      border-radius: 0.625rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      flex: 1 1 18.75rem;
+}
+
+.component p{
+    padding-top: 8px;
+    margin-bottom: 0;
+}
+
+.image img{
+    flex-shrink: 0;
+     width: 50px;
+    height: auto;
+    max-width: 100%;
+}
+
+.what-you-learn {
+    background-color: #f9f9f9;
+    padding: 50px 0;
+    text-align: left;
+}
+
+.what-you-learn .container {
+    width: 80%;
+    margin: auto;
+}
+
+.what-you-learn h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.learn-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.learn-image {
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.learn-image img {
+    max-width: 350px; /* Increase the max-width to make the image wider */
+    width: 100%;
+    border-radius: 10px; /* Add rounded corners to the image */
+}
+
+.learn-text {
+    flex: 1; /* Take remaining space */
+}
+
+.learn-text ul {
+    list-style: none; /* Remove default list styles */
+    padding-left: 0; /* Remove default left padding */
+}
+
+.learn-text ul li {
+    position: relative;
+    margin: 10px 0;
+    font-size: 1.2em;
+    text-align: justify;
+    text-align-last: left;
+}
+
+.learn-text ul li::before {
+    content: '\2022'; /* Use the unicode character for bullet (•) */
+    display: inline-block;
+    width: 20px; /* Width of the bullet */
+    margin-right: 10px; /* Spacing between bullet and text */
+    text-align: center; /* Center the bullet vertically */
+    color: #2c3e50; /* Color of the bullet */
+}
+
+
+.about-presenter {
+    background-color: #f9f9f9;
+    padding: 50px 0;
+    text-align: left;
+}
+
+.about-presenter .container {
+    width: 80%;
+    margin: auto;
+}
+
+.about-presenter h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.about-presenter p {
+    margin: 10px 0;
+    font-size: 1.2em;
+    text-align: justify;
+    text-align-last: left;
+    line-height: 250%;
+}
+
+.about-presenter ul {
+    list-style: none; /* Remove default list styles */
+    padding-left: 0; /* Remove default left padding */
+}
+
+.about-presenter ul li {
+    margin: 10px 0;
+    font-size: 1.2em;
+    text-align: justify;
+    text-align-last: left;
+    position: relative; /* Set position to relative for pseudo-element */
+    padding-left: 30px; /* Add padding to create space for the bullet point */
+}
+
+.about-presenter ul li::before {
+    content: '•'; /* Unicode character for small round bullet */
+    color: #2c3e50; /* Color of the bullet */
+    margin-right: 10px; /* Spacing between bullet and text */
+    position: absolute; /* Position the bullet points absolutely */
+    left: 0; /* Adjust the horizontal position of the bullet points */
+    top: 5px; /* Adjust the vertical position for proper alignment */
+}
+
+
+.presenter-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.presenter-text {
+    flex: 1;
+}
+
+.presenter-image {
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.presenter-image img {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.presenter-name {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.presenter-title {
+    text-align: center;
+    font-size: 1em;
+    margin-top: 5px;
+    color: #555;
+}
+
+
+.testimonial-videos {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.testimonial-video {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.testimonial-video iframe {
+    width: 100%;
+    height: 315px;
+}
+
+.people-think-feedback {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.feedback-box {
+    background-color: #ffffff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 250px;
+    max-width: 30%;
+    box-sizing: border-box;
+    text-align: justify;
+}
+
+.feedback-box p {
+    margin: 0;
+}
+/* New section styles */
+/* Who should attend the session section */
+/* Who should attend the session section */
+/* Who should attend the session section */
+.who-should-attend {
+    padding: 20px 0;
+    background-color: #f9f9f9;
+    text-align: left; /* Align text to the left */
+}
+
+.who-should-attend .container {
+    width: 80%;
+    margin: auto;
+}
+
+.who-should-attend h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.attend-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.attend-text {
+    flex: 1;
+}
+
+.attend-text ul {
+    list-style: none; /* Remove default list styles */
+    padding-left: 0; /* Remove default left padding */
+}
+
+.attend-text ul li {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    position: relative;
+    padding-left: 25px; /* Space for the bullet */
+}
+
+.attend-text ul li::before {
+    content: ''; /* Empty content for the pseudo-element */
+    display: inline-block;
+    width: 10px; /* Size of the bullet */
+    height: 10px; /* Size of the bullet */
+    background-color: #2c3e50; /* Bullet color */
+    border-radius: 50%; /* Make it a circle */
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.attend-image {
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.attend-image img {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 10px;
+}
+.master-class {
+    padding: 20px 0;
+    background-color: #f9f9f9;
+    text-align: center; /* Center align the section title */
+}
+
+.master-class .container {
+    width: 80%;
+    margin: auto;
+}
+
+.master-class h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.master-class-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Space between items */
+}
+
+.master-class-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px; /* Adjust width as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.master-class-icon {
+    width: 50px; /* Adjust icon size as needed */
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.master-class-item p {
+    margin: 0;
+    font-size: 1.1em;
+}
+.limited-spots {
+    background-color: #f13c3c;
+    color: white;
+    padding: 20px 0;
+    text-align: center; /* Center the content */
+}
+
+.limited-spots .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.limited-spots h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.limited-spots .register-button {
+    background-color: #433803;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.limited-spots .register-button:hover {
+    background-color: #5b4f03;
+}
+
+.webinar-banner {
+    background: linear-gradient(45deg, #fd5800,#ef7f10, #ffa300, #ff4f00);
+    background-size: 600% 600%;
+    border: 2px solid #ff9900;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    animation: gradientBackground 10s ease infinite, pulse 2s infinite;
+}
+
+.webinar-banner h2 {    
+    margin: 0;
+    font-size: 2em;
+    color: #fff;
+}
+
+.webinar-banner p {
+    font-size: 1.2em;
+    color: #eee;
+}
+
+.register-button {
+    background-color: #4d0475;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #5c00de;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+/* Base styles are already set */
+
+/* Small devices (landscape phones, 576px and up) */
+/* Base styles for mobile devices with a max-width of 767px */
+/* Base styles for mobile devices with a max-width of 767px */
+/* Base styles for mobile devices with a max-width of 767px */
+@media (max-width: 767px) {
+    .container {
+        width: 100%;
+        padding: 0 10px; /* Slightly reduced padding */
+        box-sizing: border-box; /* Ensure padding is included in the width */
+    }
+
+    .header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Ensure header container takes full width */
+        margin-bottom: 10px; /* Space below header */
+        justify-content: center;
+
+    }
+
+    .webinar-container,
+    .learn-content,
+    .attend-content,
+    .presenter-content,
+    .testimonial-videos,
+    .people-think-feedback {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the start for consistency */
+        width: 100%; /* Ensure these containers take full width */
+        box-sizing: border-box; /* Ensure padding and border are included in the width */
+        padding: 0; /* Remove internal padding to avoid extra space */
+        margin-bottom: 20px; /* Add margin between sections */
+    }
+
+    .learn-image,
+    .attend-image,
+    .presenter-image {
+        margin: 0 auto 10px; /* Reduced margin-bottom for images */
+        max-width: 100%; /* Ensure images scale down properly */
+        height: auto; /* Maintain aspect ratio */
+        display: block; /* Ensure images are block elements */
+    }
+
+    .webinar-info,
+    .learn-text,
+    .attend-text,
+    .presenter-text,
+    .feedback-box {
+        width: 100%; /* Use width instead of min-width for better responsiveness */
+        box-sizing: border-box; /* Ensure padding and border are included in the width */
+        margin-bottom: 10px; /* Reduced margin-bottom for sections */
+        padding: 0; /* Removed padding to avoid extra space */
+    }
+
+    .webinar-video {
+        width: 100%; /* Ensure video takes full width */
+        height: auto; /* Ensure video scales properly */
+        aspect-ratio: 16/9; /* Maintain a standard video aspect ratio */
+        margin-bottom: 10px; /* Add margin-bottom for spacing */
+    }
+
+    .presenter-text,
+    .learn-text,
+    .attend-text {
+        text-align: left; /* Align text to the left */
+        padding: 0 10px; /* Add padding for better alignment */
+        box-sizing: border-box; /* Ensure padding is included in the width */
+        margin-bottom: 10px; /* Add margin-bottom for consistency */
+    }
+
+    .header-container h1,
+    .webinar-info h2,
+    .learn-content h2,
+    .attend-content h2,
+    .presenter-content h2,
+    .testimonial-videos h2,
+    .people-think-feedback h2 {
+        width: 100%; /* Ensure headings take full width */
+        text-align: left; /* Align headings to the left */
+        padding: 0 10px; /* Add padding for better alignment */
+        box-sizing: border-box; /* Ensure padding is included in the width */
+        margin-bottom: 10px; /* Reduced margin-bottom for headings */
+    }
+
+    .webinar-info h2,
+    .learn-content h2,
+    .attend-content h2,
+    .presenter-content h2,
+    .testimonial-videos h2,
+    .people-think-feedback h2 {
+        margin-bottom: 10px; /* Add margin below headings for spacing */
+    }
+
+    /* Specific adjustments for YouTube video container */
+    .webinar-video iframe {
+        width: 100%;
+        height: auto;
+    }
+
+    .learn-text ul li::before {
+        top: 0; /* Adjust the position of the circle to align with the list items */
+        position: absolute; /* Position the bullet points absolutely */
+        left: -15px; /* Adjust the horizontal position of the bullet points */
+    }
+
+
+
+    .about-presenter ul {
+        list-style: none; /* Remove default list styles */
+        padding-left: 0; /* Remove default left padding */
+    }
+
+    header .logo {
+        width: 120px;
+        margin-right: 5px;
+    }
+
+    .company-info h1{
+        text-align: center;
+    }
+    .company-info p{
+        text-align: center;
+    }
+    #webinar-schedule {
+    flex-direction: column;
+    flex-wrap:column;
+  }
+  .component {
+    flex: 1 1 calc(50% - 1.25rem);
+    flex: 1 1 -webkit-calc(50% - 0.625rem);
+  }
+}
+  
+       
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .webinar-container,
+    .learn-content,
+    .attend-content,
+    .presenter-content,
+    .testimonial-videos,
+    .people-think-feedback {
+        flex-direction: column;
+    }
+
+    .learn-image,
+    .attend-image,
+    .presenter-image {
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .webinar-info,
+    .webinar-video,
+    .learn-text,
+    .attend-text,
+    .presenter-text,
+    .feedback-box {
+        min-width: 100%;
+    }
+    .company-info h1{
+        text-align: center;
+    }
+    .company-info p{
+        text-align: center;
+    }
+    #webinar-schedule{
+        padding-right: 50px;
+        width: 250px;
+        display: grid;
+        grid-template-columns: 100px 100px;
+        margin-left:8vw;
+        margin-right: 12vw;
+    }
+    .component{
+        min-height: 200.8px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (max-width: 992px) {
+    .container {
+        width: 90%;
+    }
+
+    .webinar-container,
+    .learn-content,
+    .attend-content,
+    .presenter-content,
+    .testimonial-videos,
+    .people-think-feedback {
+        flex-direction: column;
+    }
+
+    .learn-image,
+    .attend-image,
+    .presenter-image {
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .webinar-info,
+    .webinar-video,
+    .learn-text,
+    .attend-text,
+    .presenter-text,
+    .feedback-box {
+        min-width: 100%;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (max-width: 1200px) {
+    .container {
+        width: 95%;
+    }
+
+    .webinar-container,
+    .learn-content,
+    .attend-content,
+    .presenter-content,
+    .testimonial-videos,
+    .people-think-feedback {
+        flex-direction: column;
+    }
+
+    .learn-image,
+    .attend-image,
+    .presenter-image {
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .webinar-info,
+    .webinar-video,
+    .learn-text,
+    .attend-text,
+    .presenter-text,
+    .feedback-box {
+        min-width: 100%;
+    }
+}
+
+
+
+/* Base styles */
+.navbar {
+    background-color: rgb(28, 31, 37); /* Grey background color */
+    color: #000; /* Black text color */
+     /* Adjust padding as needed */
+}
+
+.container1 {
+    max-width: 1200px; /* Adjust max-width as needed */
+    margin: auto; /* Center align the container */
+    display: flex;
+    justify-content: left; /* Align items horizontally */
+    align-items: center; /* Align items vertically */
+
+}
+
+.logo {
+    height: 100px; /* Increase logo height */
+    width: auto; /* Ensure responsive logo size */
+    margin: 10px;
+}
+
+.company-info {
+    text-align: center; /* Align text to center */
+}
+
+.company-info{
+    text-align: center;
+}
+
+
+/* Responsive styles */
+@media (max-width: 767px) {
+    .container1 {
+        flex-direction: column; /* Stack items vertically on small screens */
+        text-align: center; /* Center align text */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+        height: 100px; /* Add spacing between logo and text */
+        width: auto;
+    }
+}
+
+.company-info {
+    text-align: left; /* Align text to the left */
+}
+
+.company-info h1, .company-info p {
+    color: white; /* White text color */
+    text-align: center;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
