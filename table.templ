@@ -1,0 +1,207 @@
+package main
+
+templ PostsTemplate(posts map[string]Posts) {
+	<div class="postsTemplate">
+    <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+    </style>
+	<div class="postsTemplatePost">
+        <table border="1">
+            <tr>
+                <th>Stock Name</th>
+                <th>Current Price</th>
+                <th>Target Price</th>
+            </tr>
+            for _, p := range posts {
+                <tr>
+                    <td>{ p.Stock_name }</td>
+                    <td>{ p.Current_price }</td>
+                    <td>{ p.Target_price }</td>
+                </tr>
+            }
+        </table>
+	</div>
+		
+	</div>
+}
+
+templ AdminPosts(posts map[string]Posts){
+    <div class="postsTemplate">
+    <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+
+                .delete-btn {
+                    background-color: red;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    padding: 8px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    border-radius: 4px;
+                }
+                .delete-btn:hover {
+                    background-color: darkred;
+                }
+                .delete-icon {
+                    margin-right: 8px;
+                }
+                tr.htmx-swapping td {
+                opacity: 0;
+                transition: opacity 1s ease-out;
+                }
+
+    </style>
+	<div class="postsTemplatePost">
+        <table border="1">
+            <tr>
+                <th>Stock Name</th>
+                <th>Current Price</th>
+                <th>Target Price</th>
+            </tr>
+            for _, p := range posts {
+                <tr hx-confirm="Are you sure?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
+                    <td class="stock-name" name="stock_name">{ p.Stock_name }</td>
+                    <td class="current-price" name="current_price">{ p.Current_price }</td>
+                    <td class="target-price" name="target_price">{ p.Target_price }</td>
+                    <td>
+                        <button class="action-btn delete-btn" hx-delete="http://localhost:8080/admin/deletePosts" hx-params="*">Delete</button>
+                    </td>
+                </tr>
+            }
+        </table>
+	</div>
+		
+	</div>
+}
+
+templ NewsTemplate(news map[string]News){
+    	<div class="newsTemplate">
+    <style>
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+    </style>
+	<div class="newsTemplatePost">
+        <table border="1">
+            <tr>
+                <th>News</th>
+                <th>Links</th>
+            </tr>
+            for _, p := range news {
+                <tr>
+                    <td>{ p.New }</td>
+                    <td><a href="{p.Link}">{ p.Link }</a></td>
+                </tr>
+            }
+        </table>
+	</div>
+		
+	</div>
+}
+
+templ AdminNews(news map[string]News){
+        <div class="newsTemplate">
+    <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+
+                .delete-btn {
+                    background-color: red;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    padding: 8px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    border-radius: 4px;
+                }
+                .delete-btn:hover {
+                    background-color: darkred;
+                }
+                .delete-icon {
+                    margin-right: 8px;
+                }
+                tr.htmx-swapping td {
+                opacity: 0;
+                transition: opacity 1s ease-out;
+                }
+
+    </style>
+	<div class="newsTemplatePost">
+        <table border="1">
+            <tr>
+                <th>News</th>
+                <th>Links</th>
+            </tr>
+            for _, p := range news {
+                <tr hx-confirm="Are you sure?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
+                    <td class="stock-name" name="news">{ p.New }</td>
+                    <td class="current-price" name="links">{ p.Link }</td>
+                    <td>
+                        <button class="action-btn delete-btn" hx-delete="http://localhost:8080/admin/deleteNews" hx-params="*">Delete</button>
+                    </td>
+                </tr>
+            }
+        </table>
+	</div>
+	</div>
+}
