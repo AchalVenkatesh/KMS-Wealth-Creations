@@ -136,7 +136,7 @@ func setUpDB(ctx context.Context) (*db.Client, error){
         DatabaseURL: "https://kms-wealth-creations-default-rtdb.asia-southeast1.firebasedatabase.app/",
 	}
 	// Fetch the service account key JSON file contents
-	opt := option.WithCredentialsFile("D:/KMS/production/utils/kms-wealth-creations-firebase-adminsdk-olzns-d4dcb8ed2c.json")
+	opt := option.WithCredentialsFile("/utils/kms-wealth-creations-firebase-adminsdk-olzns-d4dcb8ed2c.json")
 
 	// Initialize the app with a service account, granting admin privileges
 	app, err := firebase.NewApp(ctx, conf, opt)
