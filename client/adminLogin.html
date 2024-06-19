@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
-    <script src="htmx.min.js"></script>
     <title>Admin Login</title>
     <style>
         body {
@@ -30,7 +29,6 @@
             box-shadow: 0 0 15px rgba(0, 128, 128, 0.2);
             overflow: hidden;
         }
-
 
         .form-container {
             flex: 1;
@@ -79,7 +77,8 @@
         }
 
         .container button {
-            width: 100%;
+            width: 97%;
+            max-width: 100%;
             padding: 12px;
             background-color: #2aec4d;
             color: white;
@@ -113,25 +112,26 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                justify-content: center;
+                margin-right: 0;
+            }
+
             .main-container {
-                flex-direction: column;
+                width: 90%;
+                margin: 0;
+                justify-content: center;
+                align-items: center;
             }
 
-            .image-container,
-            .form-container {
-                flex: none;
-                width: 20%;
-                height: auto;
-            }
-
-            .image-container {
-                display: none; /* Hide the image container on small screens */
+            .container input[type="text"],
+            .container input[type="password"] {
+                width: 69vw;
             }
         }
     </style>
 </head>
 <body>
-    <!-- <div class="image-container"><img src="stock_image.jpg" alt=""></div> -->
     <div class="main-container">
         <div class="form-container">
             <div class="container">

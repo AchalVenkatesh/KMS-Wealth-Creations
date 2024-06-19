@@ -140,9 +140,27 @@
       border-top: 1px solid #444;
     }
 
-    #menu-toggle:checked ~ .nav-links-mobile {
-      display: flex;
-    }
+#menu-toggle:checked ~ .nav-links-mobile {
+  display: flex;
+  list-style: none;
+  height: auto;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a{
+    color: #f2f2f2;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a:hover{
+  background-color: #ddd;
+  color: #333;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile li{
+   margin: 1.25rem;
+}
 
     .about-us {
     margin-bottom: 2.5rem;
@@ -343,6 +361,7 @@ h1 {
         </script>
       </div>
       <div class="nav-links-mobile">
+        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout">Logout</a></button>
         <!-- <button class="btn-login">Logout</button> -->
       </div>
     </nav>
