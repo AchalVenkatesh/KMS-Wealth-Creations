@@ -66,7 +66,7 @@ func main(){
 	auth.GET("/posts",getPosts(ctx,client))
 	auth.GET("/news",getNews(ctx,client))
 	auth.GET("/logout",func(c *gin.Context){
-		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/login")
+		c.Redirect(http.StatusMovedPermanently,"/login")
 	})
 	// auth.GET("/settings",func(c *gin.Context){
 	// 	c.HTML(http.StatusOK,"settings.html","")
@@ -219,7 +219,7 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			log.Println("Error generating Token: ",erro)
 		}
 		
-		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/auth/dashboard")
+		c.Redirect(http.StatusMovedPermanently,"/auth/dashboard")
 		 
 	}
 }
@@ -260,7 +260,7 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
 		}
-		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/admin/post")
+		c.Redirect(http.StatusMovedPermanently,"/admin/post")
 		 
 	}
 }

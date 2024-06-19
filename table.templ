@@ -95,7 +95,7 @@ templ AdminPosts(posts map[string]Posts){
                     <td class="current-price" name="current_price">{ p.Current_price }</td>
                     <td class="target-price" name="target_price">{ p.Target_price }</td>
                     <td>
-                        <button class="action-btn delete-btn" hx-delete="http://localhost:8080/admin/deletePosts" hx-params="*">Delete</button>
+                        <button class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
                     </td>
                 </tr>
             }
@@ -197,7 +197,7 @@ templ AdminNews(news map[string]News){
                     <td class="stock-name" name="news">{ p.New }</td>
                     <td class="current-price" name="links">{ p.Link }</td>
                     <td>
-                        <button class="action-btn delete-btn" hx-delete="http://localhost:8080/admin/deleteNews" hx-params="*">Delete</button>
+                        <button class="action-btn delete-btn" hx-delete="/admin/deleteNews" hx-params="*">Delete</button>
                     </td>
                 </tr>
             }

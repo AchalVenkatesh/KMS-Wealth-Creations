@@ -306,7 +306,7 @@ h1 {
 <body>
     <header>
     <nav class="navbar">
-      <img src="http://localhost:8080/images/logo-copy.png" alt="KMS Wealth Creations Logo" class="logo">
+      <img src="/images/logo-copy.png" alt="KMS Wealth Creations Logo" class="logo">
       <div class="company-info">
                 <h1>KMS Wealth Creations</h1>
                 <p class="slogan" style="margin-left: 10px;">Build wealth with little intelligence and a lot of commonsense.</p>
@@ -321,7 +321,7 @@ h1 {
       </ul>
       <div class="btn">
       
-        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="http://localhost:8080/auth/logout">Logout</a></button>
+        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout">Logout</a></button>
         <script>        
         function deleteAllCookies() {
             const cookies = document.cookie.split("; ");
@@ -347,13 +347,13 @@ h1 {
       </div>
     </nav>
   </header>
-  <section id="contact" class="about-us" hx-get="http://localhost:8080/auth/posts" hx-trigger="load" hx-target="#container">
+  <section id="contact" class="about-us" hx-get="/auth/posts" hx-trigger="load" hx-target="#container">
     <h2>Posts</h2>
     <div id="container" class="container">
       Loading Posts...
     </div>
     </section>
-    <section id="contact" class="about-us" hx-get="http://localhost:8080/auth/news" hx-trigger="load" hx-target="#news-container">
+    <section id="contact" class="about-us" hx-get="/auth/news" hx-trigger="load" hx-target="#news-container">
     <h2>News</h2>
     <div id="news-container" class="container">
       Loading News...
