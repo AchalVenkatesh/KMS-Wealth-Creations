@@ -6,9 +6,15 @@ import (
 	//"net/http"
 	//"path/filepath"
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
+
+	// "github.com/piquette/finance-go/quote"
+	// "github.com/go-resty/resty/v2"
 
 	//"firebase.google.com/go/auth"
 	"example.com/KMS-trading/utils"
@@ -16,6 +22,8 @@ import (
 	"firebase.google.com/go/v4/db"
 	"github.com/a-h/templ/examples/integration-gin/gintemplrenderer"
 	"github.com/gin-gonic/gin"
+
+	// "github.com/google/martian/v3/body"
 	"golang.org/x/crypto/bcrypt"
 
 	//"golang.org/x/net/route"
@@ -23,31 +31,6 @@ import (
 	//"google.golang.org/genproto/googleapis/type/phone_number"
 	//"google.golang.org/genproto/googleapis/type/phone_number"
 )
-
-type Users struct{
-	Email string `form:"email"`
-	Username string `form: "username"`
-	Password string `form: "password"`
-	CPassword string `form: "cpassword"`
-	PhoneNumber string `form: "phoneNumber"`
-}
-
-type Admin struct{
-	Username string `form:"email"`
-	Password string `form:"password"`
-}
-
-type Posts struct{
-	Stock_name string `form:"stock_name"`
-	Current_price string `form:"current_price"`
-	Target_price string `form:"target_price"`
-	Comments string `fomr:"comments"`
-}
-
-type News struct{
-	New string `form:"news"`
-	Link string `form:"links"`
-}
 
 func main(){
 	router := gin.Default()
@@ -63,10 +46,10 @@ func main(){
 	auth.GET("/dashboard",func(c *gin.Context){
 		c.HTML(http.StatusOK,"dashboard.html","")
 	})
-	auth.GET("/posts",getPosts(ctx,client))
+	router.GET("/posts",getPosts(ctx,client))
 	auth.GET("/news",getNews(ctx,client))
 	auth.GET("/logout",func(c *gin.Context){
-		c.Redirect(http.StatusMovedPermanently,"/login")
+		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/login")
 	})
 	// auth.GET("/settings",func(c *gin.Context){
 	// 	c.HTML(http.StatusOK,"settings.html","")
@@ -122,6 +105,9 @@ func main(){
 		c.HTML(http.StatusOK,"style.css","hello")
 	})
 
+	
+	router.GET("/stocks",stockPriceHandler())
+
 	router.POST("/admin",adminLogin(ctx,client))
 	router.POST("/signup",registerUser(ctx,client))
 
@@ -136,7 +122,7 @@ func setUpDB(ctx context.Context) (*db.Client, error){
         DatabaseURL: "https://kms-wealth-creations-default-rtdb.asia-southeast1.firebasedatabase.app/",
 	}
 	// Fetch the service account key JSON file contents
-	opt := option.WithCredentialsFile("./utils/kms-wealth-creations-firebase-adminsdk-olzns-d4dcb8ed2c.json")
+	opt := option.WithCredentialsFile("D:/KMS/test/backend/kms-wealth-creations-firebase-adminsdk-olzns-d4dcb8ed2c.json")
 
 	// Initialize the app with a service account, granting admin privileges
 	app, err := firebase.NewApp(ctx, conf, opt)
@@ -219,7 +205,7 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			log.Println("Error generating Token: ",erro)
 		}
 		
-		c.Redirect(http.StatusMovedPermanently,"/auth/dashboard")
+		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/auth/dashboard")
 		 
 	}
 }
@@ -260,7 +246,7 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
 		}
-		c.Redirect(http.StatusMovedPermanently,"/admin/post")
+		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/admin/post")
 		 
 	}
 }
@@ -270,10 +256,11 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
 		//getting data from post request form
 		stock_name:=c.PostForm("name")
 
-		current_price:=c.PostForm("current_price")
+		current_price:=c.PostForm("buying_price")
 
 		target_price:=c.PostForm("target_price")
 		comments:=c.PostForm("comments")
+		exchange:=c.PostForm("exchange")
 
 		//saving the data in the firebase db
 		ref := client.NewRef("server/saving-data/fireblog")
@@ -284,6 +271,7 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
 				Current_price: current_price,
 				Target_price: target_price,
 				Comments: comments,
+				Exchange: exchange,
         },
 		})
 	if err != nil {
@@ -347,7 +335,7 @@ func getNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
 
 func getPostsAdmin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 	return func(c *gin.Context){
-				var posts map[string]Posts
+		var posts map[string]Posts
 		// Hey:="RELIANCE"
 		userRef := client.NewRef("server/saving-data/fireblog/posts")
 		if err := userRef.Get(ctx, &posts); err != nil {
@@ -393,4 +381,108 @@ func deleteNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		}
 		c.String(http.StatusOK,"Deleted Successfully!!")
 	}
+}
+
+func getBSEStockPrice(symbol string)(string, error){
+	alphaVantageAPIKey:="Y4BJ64SY8UK1BUWF"
+	url := fmt.Sprintf("%s?function=GLOBAL_QUOTE&symbol=%s.BSE&apikey=%s", alphaVantageURL, symbol, alphaVantageAPIKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	var stockResp BSEStockResponse
+	err = json.Unmarshal(body, &stockResp)
+	if err != nil {
+		return "", err
+	}
+	price:=stockResp.GlobalQuote.Price
+	return price, nil
+
+}
+
+func getNSEStockPrice(symbol string) (string, error) {
+    client := &http.Client{}
+    req, err := http.NewRequest("GET", nseURL+symbol, nil)
+    if err != nil {
+        return "", err
+    }
+    
+    // Update User-Agent to a more recent browser version
+    req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    req.Header.Set("Accept", "application/json")
+    req.Header.Set("Referer", "https://www.nseindia.com/get-quotes/equity?symbol=" + symbol)
+    req.Header.Set("X-Requested-With", "XMLHttpRequest")
+
+    resp, err := client.Do(req)
+    if err != nil {
+        return "", err
+    }
+    defer resp.Body.Close()
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    // Check if the response is HTML instead of JSON
+    if strings.HasPrefix(string(body), "<") {
+		log.Println(body)
+        return "", fmt.Errorf("received HTML response instead of JSON. Response body: %s", string(body)) // Print first 1"""" characters of the response
+    }
+
+    var stockResp NSEStockResponse
+    err = json.Unmarshal(body, &stockResp)
+    if err != nil {
+        return "", fmt.Errorf("error unmarshalling JSON: %v. Response body: %s", err, string(body))
+    }
+
+	price:=fmt.Sprintf("%f",stockResp.PriceInfo.LastPrice)
+
+    return price, nil
+}
+
+func stockPriceHandler()gin.HandlerFunc{
+	return func(c *gin.Context){
+				// Replace with your Alpha Vantage API key
+		// apiKey := os.Getenv("ALPHA_VANTAGE_API_KEY")
+		// if apiKey == "" {
+		// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "API key is missing"})
+		// 	return
+		// }
+    symbol := c.Query("symbol")
+	exchange := strings.ToUpper(c.Query("exchange"))
+
+	if symbol == "" || exchange == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Both symbol and exchange are required"})
+		return
+	}
+
+	if exchange != "BSE" && exchange != "NSE" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Exchange should be either BSE or NSE"})
+		return
+	}
+
+	var price string
+	var err error
+
+	if exchange == "BSE" {
+		price, err = getBSEStockPrice(symbol)
+	} else {
+		price, err = getNSEStockPrice(symbol)
+	}
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error fetching stock price: %v", err)})
+		return
+	}
+	c.String(http.StatusOK, price)
+}
 }
