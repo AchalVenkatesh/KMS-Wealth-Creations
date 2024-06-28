@@ -140,27 +140,9 @@
       border-top: 1px solid #444;
     }
 
-#menu-toggle:checked ~ .nav-links-mobile {
-  display: flex;
-  list-style: none;
-  height: auto;
-}
-
-#menu-toggle:checked ~ .nav-links-mobile a{
-    color: #f2f2f2;
-  text-decoration: none;
-  font-size: 1rem;
-  padding: 0.875rem 1rem;
-}
-
-#menu-toggle:checked ~ .nav-links-mobile a:hover{
-  background-color: #ddd;
-  color: #333;
-}
-
-#menu-toggle:checked ~ .nav-links-mobile li{
-   margin: 1.25rem;
-}
+    #menu-toggle:checked ~ .nav-links-mobile {
+      display: flex;
+    }
 
     .about-us {
     margin-bottom: 2.5rem;
@@ -324,7 +306,7 @@ h1 {
 <body>
     <header>
     <nav class="navbar">
-      <img src="/images/logo-copy.png" alt="KMS Wealth Creations Logo" class="logo">
+      <img src="http://localhost:8080/images/logo-copy.png" alt="KMS Wealth Creations Logo" class="logo">
       <div class="company-info">
                 <h1>KMS Wealth Creations</h1>
                 <p class="slogan" style="margin-left: 10px;">Build wealth with little intelligence and a lot of commonsense.</p>
@@ -339,7 +321,7 @@ h1 {
       </ul>
       <div class="btn">
       
-        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout">Logout</a></button>
+        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="http://localhost:8080/auth/logout">Logout</a></button>
         <script>        
         function deleteAllCookies() {
             const cookies = document.cookie.split("; ");
@@ -361,18 +343,17 @@ h1 {
         </script>
       </div>
       <div class="nav-links-mobile">
-        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout">Logout</a></button>
         <!-- <button class="btn-login">Logout</button> -->
       </div>
     </nav>
   </header>
-  <section id="contact" class="about-us" hx-get="/auth/posts" hx-trigger="load" hx-target="#container">
+  <section id="contact" class="about-us" hx-get="http://localhost:8080/posts" hx-trigger="load" hx-target="#container">
     <h2>Posts</h2>
     <div id="container" class="container">
       Loading Posts...
     </div>
     </section>
-    <section id="contact" class="about-us" hx-get="/auth/news" hx-trigger="load" hx-target="#news-container">
+    <section id="contact" class="about-us" hx-get="http://localhost:8080/auth/news" hx-trigger="load" hx-target="#news-container">
     <h2>News</h2>
     <div id="news-container" class="container">
       Loading News...
