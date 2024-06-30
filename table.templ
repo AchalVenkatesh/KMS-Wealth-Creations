@@ -39,7 +39,7 @@ templ PostsTemplate(posts map[string]Posts) {
                     <td class="current-price" hx-get={ "/stocks?symbol=" + p.Stock_name + "&exchange=" + p.Exchange } hx-target="this" hx-trigger="load"> 
                     Loading prices...
                     </td>
-                   /* <td class="grow">Calculating Growth...</td>*/
+                    <td class="grow">Calculating Growth...</td>
                     <td>{ p.Comments }</td>
                 </tr>
             }
@@ -140,7 +140,7 @@ templ AdminPosts(posts map[string]Posts){
                     Loading prices...
                     </td>
                     <td class="comments" name="comments">{ p.Comments }</td>
-                    /*<td class="growth">Calculating growth...</td>*/
+                    <td class="growth">Calculating growth...</td>
                     <td>
                         <button class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
                     </td>

@@ -359,7 +359,7 @@
 <body>
     <header>
         <nav class="navbar">
-            <img src="http://localhost:8080/images/logo-copy.png" alt="KMS Wealth Creations Logo" class="logo">
+            <img src="/images/logo-copy.png" alt="KMS Wealth Creations Logo" class="logo">
             <div class="company-info">
                 <h1>KMS Wealth Creations</h1>
                 <p class="slogan" style="margin-left: 10px;">Build wealth with little intelligence and a lot of commonsense.</p>
@@ -371,8 +371,8 @@
                 <div></div>
             </div>
             <ul class="nav-links">
-                <li><a href="http://localhost:8080/admin/post">New Post</a></li>
-                <li><a href="http://localhost:8080/admin/settings">Post settings</a></li>
+                <li><a href="/admin/post">New Post</a></li>
+                <li><a href="/admin/settings">Post settings</a></li>
             </ul>
             <div class="nav-links-mobile">
                 <a href="/admin/post">New Post</a>
@@ -387,7 +387,7 @@
         <div class="form-container">
             <div class="container">
                 <h2>Stock recommendations</h2>
-                <form hx-post="http://localhost:8080/admin/post" hx-target="#notif" hx-swap="#notif">
+                <form hx-post="/admin/post" hx-target="#notif" hx-swap="#notif">
                     <input type="text" name="name" placeholder="Stock Name" required>
                     <input type="text" name="buying_price" placeholder="Buying Price" required>
                     <input type="text" name="target_price" placeholder="Target Price" required>
@@ -411,7 +411,7 @@
             <div class="form-container">
                 <div class="container">
                     <h2>News</h2>
-                    <form hx-post="http://localhost:8080/admin/news" hx-target="#notif1" hx-swap="#notif1">
+                    <form hx-post="/admin/news" hx-target="#notif1" hx-swap="#notif1">
                         <textarea name="news" placeholder="news" required hx-swap="delete"></textarea>
                         <input type="text" name="links" placeholder="Relevant link" required hx-swap="delete">
                         <button type="submit">Post</button>

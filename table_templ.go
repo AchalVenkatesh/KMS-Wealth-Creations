@@ -93,7 +93,7 @@ func PostsTemplate(posts map[string]Posts) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"this\" hx-trigger=\"load\">Loading prices...</td><td>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"this\" hx-trigger=\"load\">Loading prices...</td><td class=\"grow\">Calculating Growth...</td><td>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -205,7 +205,7 @@ func AdminPosts(posts map[string]Posts) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button class=\"action-btn delete-btn\" hx-delete=\"/admin/deletePosts\" hx-params=\"*\">Delete</button></td></tr>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"growth\">Calculating growth...</td><td><button class=\"action-btn delete-btn\" hx-delete=\"/admin/deletePosts\" hx-params=\"*\">Delete</button></td></tr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

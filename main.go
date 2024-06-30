@@ -205,7 +205,7 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			log.Println("Error generating Token: ",erro)
 		}
 		
-		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/auth/dashboard")
+		c.Redirect(http.StatusMovedPermanently,"/auth/dashboard")
 		 
 	}
 }
@@ -246,7 +246,7 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
 		}
-		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/admin/post")
+		c.Redirect(http.StatusMovedPermanently,"/admin/post")
 		 
 	}
 }
