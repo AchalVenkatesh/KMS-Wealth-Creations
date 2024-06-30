@@ -46,7 +46,7 @@ func main(){
 	auth.GET("/dashboard",func(c *gin.Context){
 		c.HTML(http.StatusOK,"dashboard.html","")
 	})
-	router.GET("/posts",getPosts(ctx,client))
+	auth.GET("/posts",getPosts(ctx,client))
 	auth.GET("/news",getNews(ctx,client))
 	auth.GET("/logout",func(c *gin.Context){
 		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/login")
