@@ -140,7 +140,7 @@ func AdminPosts(posts map[string]Posts) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, p := range posts {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\"><td class=\"stock-name\" name=\"stock_name\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\"><td class=\"stock-name\" name=\"stock_name\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

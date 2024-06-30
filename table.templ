@@ -143,7 +143,7 @@ templ AdminPosts(posts map[string]Posts){
                     <td class="comments" name="comments">{ p.Comments }</td>
                     /*<td class="growth">Calculating growth...</td>*/
                     <td>
-                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
+                        <button class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
                     </td>
                     
                 </tr>

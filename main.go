@@ -252,34 +252,40 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 }
 
 func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
-	return func(c *gin.Context){
-		//getting data from post request form
-		stock_name:=c.PostForm("name")
+    return func(c *gin.Context){
+        //getting data from post request form
+        stock_name:=c.PostForm("name")
 
-		current_price:=c.PostForm("buying_price")
+        current_price:=c.PostForm("buying_price")
 
-		target_price:=c.PostForm("target_price")
-		comments:=c.PostForm("comments")
-		exchange:=c.PostForm("exchange")
+        target_price:=c.PostForm("target_price")
+        comments:=c.PostForm("comments")
+        exchange:=c.PostForm("exchange")
 
-		//saving the data in the firebase db
-		ref := client.NewRef("server/saving-data/fireblog")
-		usersRef := ref.Child("posts")
-		err := usersRef.Set(ctx, map[string]*Posts{
-        stock_name: {
-                Stock_name: stock_name,
-				Current_price: current_price,
-				Target_price: target_price,
-				Comments: comments,
-				Exchange: exchange,
-        },
-		})
-	if err != nil {
+        //saving the data in the firebase db
+        ref := client.NewRef("server/saving-data/fireblog/posts")
+		        newPost := Posts{
+            Comments:      comments,
+            Current_price: current_price,
+            Exchange:      exchange,
+            Stock_name:    stock_name,
+            Target_price:  target_price,
+        }
+
+        // Generate a new key
+        newKey := stock_name
+
+        // Create a map to hold the new entry
+        update := map[string]interface{}{
+            newKey: newPost,
+        }
+        err := ref.Update(ctx, update)
+    if err != nil {
         log.Fatalln("Error setting value:", err)
-		c.String(http.StatusInternalServerError,"Internal Server Error")
-	}
-	c.String(http.StatusOK,"Successfully Posted!!")
-	}
+        c.String(http.StatusInternalServerError,"Internal Server Error")
+    }
+    c.String(http.StatusOK,"Successfully Posted!!")
+    }
 }
 
 func postNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
