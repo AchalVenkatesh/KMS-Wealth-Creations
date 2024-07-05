@@ -135,47 +135,60 @@ func AdminPosts(posts map[string]Posts) templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"postsTemplate\"><style>\r\n                table {\r\n                    width: 100%;\r\n                    border-collapse: collapse;\r\n                }\r\n                th, td {\r\n                    padding: 12px;\r\n                    border: 1px solid #ddd;\r\n                    text-align: left;\r\n                }\r\n                th {\r\n                    background-color: #f2f2f2;\r\n                }\r\n                tr:nth-child(even) {\r\n                    background-color: #f9f9f9;\r\n                }\r\n\r\n                .delete-btn {\r\n                    background-color: red;\r\n                    color: white;\r\n                    border: none;\r\n                    cursor: pointer;\r\n                    padding: 8px;\r\n                    text-align: center;\r\n                    text-decoration: none;\r\n                    display: inline-block;\r\n                    font-size: 16px;\r\n                    border-radius: 4px;\r\n                }\r\n                .delete-btn:hover {\r\n                    background-color: darkred;\r\n                }\r\n                .delete-icon {\r\n                    margin-right: 8px;\r\n                }\r\n                tr.htmx-swapping td {\r\n                opacity: 0;\r\n                transition: opacity 1s ease-out;\r\n                }\r\n\r\n    </style><div class=\"postsTemplatePost\"><table border=\"1\"><tr><th>Stock Name</th><th>Buying Price</th><th>Target Price</th><th>Exchange</th><th>Current Price</th><th>Comments</th><th>Growth</th></tr>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"postsTemplate\"><style>\r\n                table {\r\n                    width: 100%;\r\n                    border-collapse: collapse;\r\n                }\r\n                th, td {\r\n                    padding: 12px;\r\n                    border: 1px solid #ddd;\r\n                    text-align: left;\r\n                }\r\n                th {\r\n                    background-color: #f2f2f2;\r\n                }\r\n                tr:nth-child(even) {\r\n                    background-color: #f9f9f9;\r\n                }\r\n\r\n                .delete-btn {\r\n                    background-color: red;\r\n                    color: white;\r\n                    border: none;\r\n                    cursor: pointer;\r\n                    padding: 8px;\r\n                    text-align: center;\r\n                    text-decoration: none;\r\n                    display: inline-block;\r\n                    font-size: 16px;\r\n                    border-radius: 4px;\r\n                }\r\n                .delete-btn:hover {\r\n                    background-color: darkred;\r\n                }\r\n                .delete-icon {\r\n                    margin-right: 8px;\r\n                }\r\n                tr.htmx-swapping td {\r\n                opacity: 0;\r\n                transition: opacity 1s ease-out;\r\n                }\r\n    </style><div class=\"postsTemplatePost\"><table border=\"1\"><tr><th>Stock Name</th><th>Buying Price</th><th>Target Price</th><th>Exchange</th><th>Current Price</th><th>Growth</th><th>Comments</th></tr>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, p := range posts {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\"><td class=\"stock-name\" name=\"stock_name\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr><td>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(p.Stock_name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 150, Col: 75}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 149, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"buying-price\" name=\"buying_price\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"buying-price\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.Current_price)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 151, Col: 82}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 150, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"target-price\" name=\"target_price\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.Target_price)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 152, Col: 81}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 151, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var12 string
+			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(p.Exchange)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 152, Col: 36}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -183,34 +196,34 @@ func AdminPosts(posts map[string]Posts) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var12 string
-			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs("/stocks?symbol=" + p.Stock_name + "&exchange=" + p.Exchange)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 155, Col: 88}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"this\" hx-trigger=\"load\" hx-on::after-request=\"calculateGrowth(this)\">Loading prices...</td><td class=\"comments\" name=\"comments\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			var templ_7745c5c3_Var13 string
-			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Comments)
+			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs("/stocks?symbol=" + p.Stock_name + "&exchange=" + p.Exchange)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 162, Col: 69}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 154, Col: 89}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"growth\">Calculating growth...</td><td><button class=\"action-btn delete-btn\" hx-delete=\"/admin/deletePosts\" hx-params=\"*\">Delete</button></td></tr>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"this\" hx-trigger=\"load\" hx-on::after-request=\"calculateGrowth(this)\">Loading prices...</td><td class=\"growth\">Calculating Growth...</td><td>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var14 string
+			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.Comments)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 161, Col: 36}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button hx-confirm=\"Are you sure?\" class=\"action-btn delete-btn\" hx-delete=\"/admin/deletePosts\" hx-params=\"*\">Delete</button></td></tr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</table></div><script>\r\n        function calculateGrowth(element) {\r\n            const row = element.closest('tr');\r\n            const buyingPrice = parseFloat(row.querySelector('.buying-price').textContent);\r\n            const currentPrice = parseFloat(row.querySelector('.current-price').textContent);\r\n            const growthElement = row.querySelector('.growth');\r\n            \r\n            if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {\r\n                const growth = currentPrice - buyingPrice;\r\n                const growthPercentage = (growth / buyingPrice) * 100;\r\n                growthElement.textContent = growth.toFixed(2) + ' (' + growthPercentage.toFixed(2) + '%)';\r\n                \r\n                // Optionally, add color coding\r\n                if (growth > 0) {\r\n                    growthElement.style.color = 'green';\r\n                } else if (growth < 0) {\r\n                    growthElement.style.color = 'red';\r\n                }\r\n            } else {\r\n                growthElement.textContent = 'N/A';\r\n            }  \r\n        }\r\n    </script></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</table></div><script>\r\n    function calculateGrowth(element) {\r\n    console.log('Element:', element);\r\n    const row = element.closest('tr');\r\n    console.log('Row:', row);\r\n    \r\n    if (!row) {\r\n        console.error('No row found');\r\n        return;\r\n    }\r\n\r\n    const buyingPriceElement = row.querySelector('.buying-price');\r\n    const currentPriceElement = row.querySelector('.current-price');\r\n    const growthElement = row.querySelector('.growth');\r\n\r\n    console.log('Buying Price Element:', buyingPriceElement);\r\n    console.log('Current Price Element:', currentPriceElement);\r\n    console.log('Growth Element:', growthElement);\r\n\r\n    if (!buyingPriceElement || !currentPriceElement || !growthElement) {\r\n        console.error('Missing required elements');\r\n        return;\r\n    }\r\n\r\n\r\n    const buyingPrice = parseFloat(buyingPriceElement.textContent);\r\n    const currentPrice = parseFloat(currentPriceElement.textContent);\r\n\r\n    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {\r\n        const growth = currentPrice - buyingPrice;\r\n        const growthPercentage = (growth / buyingPrice) * 100;\r\n        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;\r\n        \r\n        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');\r\n    } else {\r\n        growthElement.textContent = 'N/A';\r\n    }\r\n}\r\n    </script></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -229,9 +242,9 @@ func NewsTemplate(news map[string]News) templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var14 == nil {
-			templ_7745c5c3_Var14 = templ.NopComponent
+		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var15 == nil {
+			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"newsTemplate\"><style>\r\n\r\n                table {\r\n                    width: 100%;\r\n                    border-collapse: collapse;\r\n                }\r\n                th, td {\r\n                    padding: 12px;\r\n                    border: 1px solid #ddd;\r\n                    text-align: left;\r\n                }\r\n                th {\r\n                    background-color: #f2f2f2;\r\n                }\r\n                tr:nth-child(even) {\r\n                    background-color: #f9f9f9;\r\n                }\r\n    </style><div class=\"newsTemplatePost\"><table border=\"1\"><tr><th>News</th><th>Links</th></tr>")
@@ -243,12 +256,12 @@ func NewsTemplate(news map[string]News) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var15 string
-			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(p.New)
+			var templ_7745c5c3_Var16 string
+			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.New)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 226, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 239, Col: 31}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -256,12 +269,12 @@ func NewsTemplate(news map[string]News) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var16 string
-			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.Link)
+			var templ_7745c5c3_Var17 string
+			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(p.Link)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 227, Col: 51}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 240, Col: 51}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -289,9 +302,9 @@ func AdminNews(news map[string]News) templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var17 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var17 == nil {
-			templ_7745c5c3_Var17 = templ.NopComponent
+		templ_7745c5c3_Var18 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var18 == nil {
+			templ_7745c5c3_Var18 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"newsTemplate\"><style>\r\n                table {\r\n                    width: 100%;\r\n                    border-collapse: collapse;\r\n                }\r\n                th, td {\r\n                    padding: 12px;\r\n                    border: 1px solid #ddd;\r\n                    text-align: left;\r\n                }\r\n                th {\r\n                    background-color: #f2f2f2;\r\n                }\r\n                tr:nth-child(even) {\r\n                    background-color: #f9f9f9;\r\n                }\r\n\r\n                .delete-btn {\r\n                    background-color: red;\r\n                    color: white;\r\n                    border: none;\r\n                    cursor: pointer;\r\n                    padding: 8px;\r\n                    text-align: center;\r\n                    text-decoration: none;\r\n                    display: inline-block;\r\n                    font-size: 16px;\r\n                    border-radius: 4px;\r\n                }\r\n                .delete-btn:hover {\r\n                    background-color: darkred;\r\n                }\r\n                .delete-icon {\r\n                    margin-right: 8px;\r\n                }\r\n                tr.htmx-swapping td {\r\n                opacity: 0;\r\n                transition: opacity 1s ease-out;\r\n                }\r\n\r\n    </style><div class=\"newsTemplatePost\"><table border=\"1\"><tr><th>News</th><th>Links</th></tr>")
@@ -299,16 +312,16 @@ func AdminNews(news map[string]News) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, p := range news {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr hx-confirm=\"Are you sure?\" hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\"><td class=\"stock-name\" name=\"news\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr hx-target=\"closest tr\" hx-swap=\"outerHTML swap:1s\"><td class=\"stock-name\" name=\"news\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var18 string
-			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.New)
+			var templ_7745c5c3_Var19 string
+			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(p.New)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 287, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 300, Col: 62}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -316,16 +329,16 @@ func AdminNews(news map[string]News) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var19 string
-			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(p.Link)
+			var templ_7745c5c3_Var20 string
+			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(p.Link)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 288, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `table.templ`, Line: 301, Col: 67}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button class=\"action-btn delete-btn\" hx-delete=\"/admin/deleteNews\" hx-params=\"*\">Delete</button></td></tr>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td><button class=\"action-btn delete-btn\" hx-delete=\"/admin/deleteNews\" hx-confirm=\"Are you sure?\" hx-params=\"*\">Delete</button></td></tr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

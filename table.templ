@@ -132,7 +132,6 @@ templ AdminPosts(posts map[string]Posts){
                 opacity: 0;
                 transition: opacity 1s ease-out;
                 }
-
     </style>
 	<div class="postsTemplatePost">
         <table border="1">
@@ -142,55 +141,69 @@ templ AdminPosts(posts map[string]Posts){
                 <th>Target Price</th>
                 <th>Exchange</th>
                 <th>Current Price</th>
-                <th>Comments</th>
                 <th>Growth</th>
+                <th>Comments</th>
             </tr>
             for _, p := range posts {
-                <tr hx-confirm="Are you sure?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
-                    <td class="stock-name" name="stock_name">{ p.Stock_name }</td>
-                    <td class="buying-price" name="buying_price">{ p.Current_price }</td>
-                    <td class="target-price" name="target_price">{ p.Target_price }</td>
-                    <td 
-                    class="current-price" 
-                    hx-get={"/stocks?symbol=" + p.Stock_name + "&exchange=" + p.Exchange}
+                <tr>
+                    <td>{ p.Stock_name }</td>
+                    <td class="buying-price">{ p.Current_price }</td>
+                    <td>{ p.Target_price }</td>
+                    <td>{ p.Exchange }</td>
+                    <td class="current-price" 
+                    hx-get={ "/stocks?symbol=" + p.Stock_name + "&exchange=" + p.Exchange } 
                     hx-target="this" 
-                    hx-trigger="load"
-                    hx-on::after-request="calculateGrowth(this)"
-                    > 
+                    hx-trigger="load" 
+                    hx-on::after-request="calculateGrowth(this)"> 
                     Loading prices...
                     </td>
-                    <td class="comments" name="comments">{ p.Comments }</td>
-                    <td class="growth">Calculating growth...</td>
+                    <td class="growth">Calculating Growth...</td>
+                    <td>{ p.Comments }</td>
                     <td>
-                        <button class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
+                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
                     </td>
-                    
                 </tr>
             }
         </table>
 	</div>
 	<script>
-        function calculateGrowth(element) {
-            const row = element.closest('tr');
-            const buyingPrice = parseFloat(row.querySelector('.buying-price').textContent);
-            const currentPrice = parseFloat(row.querySelector('.current-price').textContent);
-            const growthElement = row.querySelector('.growth');
-            
-            if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
-                const growth = currentPrice - buyingPrice;
-                const growthPercentage = (growth / buyingPrice) * 100;
-                growthElement.textContent = growth.toFixed(2) + ' (' + growthPercentage.toFixed(2) + '%)';
-                
-                // Optionally, add color coding
-                if (growth > 0) {
-                    growthElement.style.color = 'green';
-                } else if (growth < 0) {
-                    growthElement.style.color = 'red';
-                }
-            } else {
-                growthElement.textContent = 'N/A';
-            }  
-        }
+    function calculateGrowth(element) {
+    console.log('Element:', element);
+    const row = element.closest('tr');
+    console.log('Row:', row);
+    
+    if (!row) {
+        console.error('No row found');
+        return;
+    }
+
+    const buyingPriceElement = row.querySelector('.buying-price');
+    const currentPriceElement = row.querySelector('.current-price');
+    const growthElement = row.querySelector('.growth');
+
+    console.log('Buying Price Element:', buyingPriceElement);
+    console.log('Current Price Element:', currentPriceElement);
+    console.log('Growth Element:', growthElement);
+
+    if (!buyingPriceElement || !currentPriceElement || !growthElement) {
+        console.error('Missing required elements');
+        return;
+    }
+
+
+    const buyingPrice = parseFloat(buyingPriceElement.textContent);
+    const currentPrice = parseFloat(currentPriceElement.textContent);
+
+    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
+        const growth = currentPrice - buyingPrice;
+        const growthPercentage = (growth / buyingPrice) * 100;
+        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
+        
+        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
+    } else {
+        growthElement.textContent = 'N/A';
+    }
+}
     </script>
 	</div>
 }
@@ -283,11 +296,11 @@ templ AdminNews(news map[string]News){
                 <th>Links</th>
             </tr>
             for _, p := range news {
-                <tr hx-confirm="Are you sure?" hx-target="closest tr" hx-swap="outerHTML swap:1s">
+                <tr hx-target="closest tr" hx-swap="outerHTML swap:1s">
                     <td class="stock-name" name="news">{ p.New }</td>
                     <td class="current-price" name="links">{ p.Link }</td>
                     <td>
-                        <button class="action-btn delete-btn" hx-delete="/admin/deleteNews" hx-params="*">Delete</button>
+                        <button class="action-btn delete-btn" hx-delete="/admin/deleteNews" hx-confirm="Are you sure?" hx-params="*">Delete</button>
                     </td>
                 </tr>
             }

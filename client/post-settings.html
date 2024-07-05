@@ -393,7 +393,7 @@ h1 {
       </div>
     </nav>
   </header>
-  <section id="contact" class="about-us" hx-get="/admin/posts" hx-trigger="load" hx-target="#posts-container">
+  <section id="contact" class="about-us" hx-boost="true" hx-get="/admin/posts" hx-trigger="load" hx-target="#posts-container">
     <div style="display: flex; align-items: center; flex-wrap: wrap;"></div>
         <div class="form-container">
             <div class="container">
@@ -405,7 +405,7 @@ h1 {
     </div>  
     </section>
 
-<section class="about-us" hx-get="/admin/news" hx-trigger="load" hx-target="#news-container">
+<section class="about-us" hx-get="/admin/news" hx-boost="true" hx-trigger="load" hx-target="#news-container">
     <div class="about-content">
         <div class="form-container">
             <div class="container">
