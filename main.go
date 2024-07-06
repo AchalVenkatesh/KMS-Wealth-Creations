@@ -489,6 +489,7 @@ func stockPriceHandler()gin.HandlerFunc{
 		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error fetching stock price: %v", err)})
 		return
 	}
+	log.Println(price)
 	c.String(http.StatusOK, price)
 }
 }
