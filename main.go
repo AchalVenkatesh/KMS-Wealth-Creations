@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	// "sync"
 
 	// "github.com/piquette/finance-go/quote"
 	// "github.com/go-resty/resty/v2"
@@ -106,7 +107,7 @@ func main(){
 	})
 
 	
-	router.GET("/stocks",stockPriceHandler())
+	// router.GET("/stocks",stockPriceHandler())
 
 	router.POST("/admin",adminLogin(ctx,client))
 	router.POST("/signup",registerUser(ctx,client))
@@ -256,20 +257,22 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
         //getting data from post request form
         stock_name:=c.PostForm("name")
 
-        current_price:=c.PostForm("buying_price")
+        buying_price:=c.PostForm("buying_price")
 
         target_price:=c.PostForm("target_price")
         comments:=c.PostForm("comments")
         exchange:=c.PostForm("exchange")
+		current_price:=c.PostForm("current_price")
 
         //saving the data in the firebase db
         ref := client.NewRef("server/saving-data/fireblog/posts")
 		        newPost := Posts{
             Comments:      comments,
-            Current_price: current_price,
+            Buying_price: buying_price,
             Exchange:      exchange,
             Stock_name:    stock_name,
             Target_price:  target_price,
+			Current_price: current_price,
         }
 
         // Generate a new key
@@ -291,16 +294,15 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
 func postNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
 	return func(c *gin.Context)  {
 		news:=c.PostForm("news")
+		new:="news"
 
-		links:=c.PostForm("links")
 		//saving the data in the firebase db
 		
 		ref := client.NewRef("server/saving-data/fireblog")
 		usersRef := ref.Child("news")
 		err := usersRef.Set(ctx, map[string]*News{
-        links: {
+        new: {
                 New: news,
-				Link: links,
         },
 		})
 	if err != nil {
@@ -311,16 +313,44 @@ func postNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
 	}
 }
 
-func getPosts(ctx context.Context, client *db.Client)gin.HandlerFunc{
-	return func(c *gin.Context){
+func getPosts(ctx context.Context, client *db.Client) gin.HandlerFunc {
+	return func(c *gin.Context) {
 		var posts map[string]Posts
-		// Hey:="RELIANCE"
 		userRef := client.NewRef("server/saving-data/fireblog/posts")
 		if err := userRef.Get(ctx, &posts); err != nil {
-    		log.Fatalf("error getting user data: %v", err)
+			log.Printf("error getting user data: %v", err)
+			c.String(http.StatusInternalServerError, "Error fetching posts")
+			return
 		}
-		log.Print(posts)
-		r := gintemplrenderer.New(c.Request.Context(), http.StatusOK,PostsTemplate(posts))
+
+		// current_prices := make([]string, len(posts))
+		// var wg sync.WaitGroup
+		// errors := make(chan error, len(posts))
+
+		// i := 0
+		// for _, p := range posts {
+		// 	wg.Add(1)
+		// 	go func(i int, symbol, exchange string) {
+		// 		defer wg.Done()
+		// 		price, err := stockPriceHandler(symbol, exchange)
+		// 		if err != nil {
+		// 			errors <- err
+		// 			return
+		// 		}
+		// 		current_prices[i] = price
+		// 	}(i, p.Stock_name, p.Exchange)
+		// 	i++
+		// }
+
+		// wg.Wait()
+		// close(errors)
+
+		// for err := range errors {
+		// 	log.Printf("Error fetching stock price: %v", err)
+		// }
+
+		// log.Print("Current prices:", current_prices)
+		r := gintemplrenderer.New(c.Request.Context(), http.StatusOK, PostsTemplate(posts))
 		c.Render(http.StatusOK, r)
 	}
 }
@@ -392,7 +422,7 @@ func deleteNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
 func getBSEStockPrice(symbol string)(string, error){
 	alphaVantageAPIKey:="Y4BJ64SY8UK1BUWF"
 	url := fmt.Sprintf("%s?function=GLOBAL_QUOTE&symbol=%s.BSE&apikey=%s", alphaVantageURL, symbol, alphaVantageAPIKey)
-
+	log.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return "", err
@@ -455,25 +485,24 @@ func getNSEStockPrice(symbol string) (string, error) {
     return price, nil
 }
 
-func stockPriceHandler()gin.HandlerFunc{
-	return func(c *gin.Context){
+func stockPriceHandler(symbol string,exchange string)(string,error){
 				// Replace with your Alpha Vantage API key
 		// apiKey := os.Getenv("ALPHA_VANTAGE_API_KEY")
 		// if apiKey == "" {
 		// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "API key is missing"})
 		// 	return
 		// }
-    symbol := c.Query("symbol")
-	exchange := strings.ToUpper(c.Query("exchange"))
+    // symbol := c.Query("symbol")
+	// exchange := strings.ToUpper(c.Query("exchange"))
 
 	if symbol == "" || exchange == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Both symbol and exchange are required"})
-		return
+		// c.JSON(http.StatusBadRequest, gin.H{"error": "Both symbol and exchange are required"})
+		return "", fmt.Errorf("Symbol or exchange field is empty")
 	}
 
 	if exchange != "BSE" && exchange != "NSE" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Exchange should be either BSE or NSE"})
-		return
+		// c.JSON(http.StatusBadRequest, gin.H{"error": "Exchange should be either BSE or NSE"})
+		return "", fmt.Errorf("Exchange needs to be either BSE or NSE")
 	}
 
 	var price string
@@ -487,10 +516,10 @@ func stockPriceHandler()gin.HandlerFunc{
 
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error fetching stock price: %v", err)})
-		return
+		// c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error fetching stock price: %v", err)})
+		return "", err
 	}
 	log.Println(price)
-	c.String(http.StatusOK, price)
-}
+	// c.String(http.StatusOK, price)
+	return price, nil
 }

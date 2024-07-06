@@ -20,15 +20,15 @@ type Admin struct{
 
 type Posts struct{
 	Stock_name string `form:"stock_name"`
-	Current_price string `form:"buying_price"`
+	Buying_price string `form:"buying_price"`
 	Target_price string `form:"target_price"`
 	Comments string `form:"comments"`
 	Exchange string `form:"exchange"`
+	Current_price string `form:"current_price"`
 }
 
 type News struct{
 	New string `form:"news"`
-	Link string `form:"links"`
 }
 
 type BSEStockResponse struct {
