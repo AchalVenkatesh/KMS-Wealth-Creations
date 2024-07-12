@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>Admin</title>
+    <title>Dashboard</title>
       <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
@@ -320,10 +320,15 @@ h1 {
         <div></div>
       </div>
       <ul class="nav-links">
+        <li><a href="/auth/dashboard">Stock Recommendations</a></li>
+        <li><a href="/auth/news">News</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/auth/pastPosts">Past recommendations</a></li>
+        <!-- <button class="btn-login">Logout</button> -->
       </ul>
       <div class="btn">
       
-        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout">Logout</a></button>
+        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout" >Logout</a></button>
         <script>        
         function deleteAllCookies() {
             const cookies = document.cookie.split("; ");
@@ -345,21 +350,63 @@ h1 {
         </script>
       </div>
       <div class="nav-links-mobile">
+                <li><a href="/auth/dashboard">Stock Recommendations</a></li>
+        <li><a href="/auth/news">News</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/auth/pastPosts">Past recommendations</a></li>
+        <!-- <button class="btn-login">Logout</button> -->
         <!-- <button class="btn-login">Logout</button> -->
       </div>
     </nav>
   </header>
-  <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/posts" hx-trigger="load" hx-target="#container">
+  <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/posts" hx-trigger="load" hx-target="#container" hx-on:htmx:after-request="calculateGrowth(this)">
     <h2>Posts</h2>
     <div id="container" class="container">
       Loading Posts...
     </div>
     </section>
-    <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/news" hx-trigger="load" hx-target="#news-container">
-    <h2>News</h2>
-    <div id="news-container" class="container">
-      Loading News...
-    </div>
-    </section>
+    	<script>
+    async function calculateGrowth(element) {
+    console.log('Element:', element);
+    var rows = document.getElementsByTagName("tr")
+    console.log(rows)
+    //const row = element.closest('tr');
+    for(let i=1; i<rows.length;i++){
+    var row = rows[i]
+    console.log('Row:', row);
+    
+    if (!row) {
+        console.error('No row found');
+        return;
+    }
+
+    const buyingPriceElement = row.querySelector('.buying-price');
+    const currentPriceElement = row.querySelector('.current-price');
+    const growthElement = row.querySelector('.growth');
+
+    console.log('Buying Price Element:', buyingPriceElement);
+    console.log('Current Price Element:', currentPriceElement);
+    console.log('Growth Element:', growthElement);
+
+    if (!buyingPriceElement || !currentPriceElement || !growthElement) {
+        console.error('Missing required elements');
+        return;
+    }
+
+
+    const buyingPrice = parseFloat(buyingPriceElement.textContent);
+    const currentPrice = parseFloat(currentPriceElement.textContent);
+
+    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
+        const growth = currentPrice - buyingPrice;
+        const growthPercentage = (growth / buyingPrice) * 100;
+        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
+        
+        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
+    } else {
+        growthElement.textContent = 'N/A';
+    }}
+}
+    </script>
 </body>
 </html>

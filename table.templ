@@ -21,6 +21,7 @@ templ PostsTemplate(posts map[string]Posts) {
                     background-color: #f9f9f9;
                 }
     </style>
+    <body onload="calculateGrowth();">
 	<div class="postsTemplatePost">
         <table border="1">
             <tr>
@@ -29,10 +30,11 @@ templ PostsTemplate(posts map[string]Posts) {
                 <th>Target Price</th>
                 <th>Exchange</th>
                 <th>Current Price</th>
+                <th>Growth</th>
                 <th>Comments</th>
             </tr>
             for _, p := range posts {
-                <tr>
+                <tr class="table">
                     <td>{ p.Stock_name }</td>
                     <td class="buying-price">{ p.Buying_price }</td>
                     <td>{ p.Target_price }</td>
@@ -40,49 +42,40 @@ templ PostsTemplate(posts map[string]Posts) {
                     <td class="current-price"> 
                     { p.Current_price}
                     </td>
+                    <td class="growth">Calculating Growth...</td>
                     <td>{ p.Comments }</td>
                 </tr>
             }
         </table>
 	</div>
+    </body>
 	<script>
-    function calculateGrowth(element) {
-    console.log('Element:', element);
-    const row = element.closest('tr');
-    console.log('Row:', row);
-    
-    if (!row) {
-        console.error('No row found');
-        return;
-    }
+       document.addEventListener('DOMContentLoaded', function() {
+            console.log("HELLLOOOOOO");
+            const rows = document.querySelectorAll('#stockTable tr:not(:first-child)');
+            rows.forEach(row => {
+                const buyingPriceElement = row.querySelector('.buying-price');
+                const currentPriceElement = row.querySelector('.current-price');
+                const growthElement = row.querySelector('.growth');
 
-    const buyingPriceElement = row.querySelector('.buying-price');
-    const currentPriceElement = row.querySelector('.current-price');
-    const growthElement = row.querySelector('.growth');
+                console.log("Growth Element: \n",growthElement);
+                console.log(currentPriceElement);
 
-    console.log('Buying Price Element:', buyingPriceElement);
-    console.log('Current Price Element:', currentPriceElement);
-    console.log('Growth Element:', growthElement);
+                if (buyingPriceElement && currentPriceElement && growthElement) {
+                    const buyingPrice = parseFloat(buyingPriceElement.textContent);
+                    const currentPrice = parseFloat(currentPriceElement.textContent);
 
-    if (!buyingPriceElement || !currentPriceElement || !growthElement) {
-        console.error('Missing required elements');
-        return;
-    }
-
-
-    const buyingPrice = parseFloat(buyingPriceElement.textContent);
-    const currentPrice = parseFloat(currentPriceElement.textContent);
-
-    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
-        const growth = currentPrice - buyingPrice;
-        const growthPercentage = (growth / buyingPrice) * 100;
-        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
-        
-        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
-    } else {
-        growthElement.textContent = 'N/A';
-    }
-}
+                    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
+                        const growth = currentPrice - buyingPrice;
+                        const growthPercentage = (growth / buyingPrice) * 100;
+                        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
+                        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
+                    } else {
+                        growthElement.textContent = 'N/A';
+                    }
+                }
+            });
+        })
     </script>
 	</div>
 }
@@ -148,9 +141,9 @@ templ AdminPosts(posts map[string]Posts){
                 <th>Target Price</th>
                 <th>Exchange</th>
                 <th>Current Price</th>
+                <th>Growth</th>
                 <th>Comments</th>
             </tr>
-            i:=0
             for _, p := range posts {
                 <tr>
                     <td>{ p.Stock_name }</td>
@@ -160,46 +153,15 @@ templ AdminPosts(posts map[string]Posts){
                     <td class="current-price" > 
                     {p.Current_price}
                     </td>
+                    <td class="growth">Calculating Growth...</td>
+                    <td>{ p.Comments }</td>
                     <td>
                         <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
                     </td>
                 </tr>
             }
         </table>
-	</div>
-	<script>
-    // Call calculateGrowth when the DOM is fully loaded
-    document.addEventListener('DOMContentLoaded', calculateGrowth);
-
-    function calculateGrowth() {
-            const rows = document.querySelectorAll('#stockTable tr:not(:first-child)');
-            rows.forEach(row => {
-                const buyingPriceElement = row.querySelector('.buying-price');
-                const currentPriceElement = row.querySelector('.current-price');
-                const growthElement = row.querySelector('.growth');
-
-                if (buyingPriceElement && currentPriceElement && growthElement) {
-                    const buyingPrice = parseFloat(buyingPriceElement.textContent);
-                    const currentPrice = parseFloat(currentPriceElement.textContent);
-
-                    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
-                        const growth = currentPrice - buyingPrice;
-                        const growthPercentage = (growth / buyingPrice) * 100;
-                        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
-                        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
-                    } else {
-                        growthElement.textContent = 'N/A';
-                    }
-                }
-            });
-        }
-
-        // Call calculateGrowth immediately
-        calculateGrowth();
-
-        // If using HTMX, also call calculateGrowth after HTMX swaps
-        document.body.addEventListener('htmx:afterSwap', calculateGrowth);
-    </script>
+	</div>	
 	</div>
 }
 
@@ -303,4 +265,44 @@ templ AdminNews(news map[string]News){
         </table>
 	</div>
 	</div>
+}
+
+templ OldPosts(pastPosts map[string]PastPosts){
+    <div class="postsTemplate">
+        <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    th, td {
+                        padding: 12px;
+                        border: 1px solid #ddd;
+                        text-align: left;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+        </style>
+        <div class="postsTemplatePost">
+            <table border="1">
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Buying Price</th>
+                    <th>Target Price</th>
+                    <th>Target Hit</th>
+                </tr>
+                for _, p := range pastPosts {
+                    <tr>
+                        <td>{ p.Stock_name }</td>
+                        <td class="buying-price">{ p.Buying_price }</td>
+                        <td>{ p.Target_price }</td>
+                        <td>{ p.Target }</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 }

@@ -27,6 +27,13 @@ type Posts struct{
 	Current_price string `form:"current_price"`
 }
 
+type PastPosts struct{
+	Stock_name string `form:"stock_name"`
+	Buying_price string `form:"buying_price"`
+	Target_price string `form:"target_price"`
+	Target string `form:"target"`
+}
+
 type News struct{
 	New string `form:"news"`
 }

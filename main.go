@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
 	// "sync"
 
 	// "github.com/piquette/finance-go/quote"
@@ -47,8 +48,15 @@ func main(){
 	auth.GET("/dashboard",func(c *gin.Context){
 		c.HTML(http.StatusOK,"dashboard.html","")
 	})
+	auth.GET("/pastPosts",func(c *gin.Context){
+		c.HTML(http.StatusOK,"past-targets.html","")
+	})
+	auth.GET("/news",func(c *gin.Context){
+		c.HTML(http.StatusOK,"news.html","")
+	})
 	auth.GET("/posts",getPosts(ctx,client))
-	auth.GET("/news",getNews(ctx,client))
+	auth.GET("/getNews",getNews(ctx,client))
+	auth.GET("/targets",getPastPosts(ctx,client))
 	auth.GET("/logout",func(c *gin.Context){
 		c.Redirect(http.StatusMovedPermanently,"http://localhost:8080/login")
 	})
@@ -106,6 +114,7 @@ func main(){
 		c.HTML(http.StatusOK,"style.css","hello")
 	})
 
+
 	
 	// router.GET("/stocks",stockPriceHandler())
 
@@ -113,6 +122,7 @@ func main(){
 	router.POST("/signup",registerUser(ctx,client))
 
 	router.POST("/login",login(ctx, client))
+	router.POST("/pastPosts",postPastPosts(ctx,client))
 	// Run the server on port 8080
 	getPosts(ctx,client)
 	router.Run(":8080")
@@ -198,7 +208,8 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		err := checkPasswordHash(password,stored_password)
 		if err!= nil {
 			fmt.Println("Wrong password: ", err)
-			c.String(http.StatusBadRequest, "Wrong Password!!")
+			// c.String(http.StatusBadRequest, "<div id=\"notif\" class=\"notif\" hx-swap-oob=\"true\">Wrong Password!!</div>")
+			c.String(http.StatusBadRequest,"Wrong Password!!")
 		}
 		
 		erro:=utils.GenerateTokensAndSetCookies(userData.Email,c)
@@ -522,4 +533,79 @@ func stockPriceHandler(symbol string,exchange string)(string,error){
 	log.Println(price)
 	// c.String(http.StatusOK, price)
 	return price, nil
+}
+
+func postPastPosts(ctx context.Context, client *db.Client)gin.HandlerFunc{
+	return func(c *gin.Context){
+		stock_name:=c.PostForm("name")
+
+        buying_price:=c.PostForm("buying_price")
+
+        target_price:=c.PostForm("target_price")
+        target:=c.PostForm("target")
+        //saving the data in the firebase db
+        ref := client.NewRef("server/saving-data/fireblog/pastPosts")
+		newPost := PastPosts{
+            Buying_price: buying_price,
+            Stock_name:    stock_name,
+            Target_price:  target_price,
+			Target: target,
+        }
+
+        // Generate a new key
+        newKey := stock_name
+
+        // Create a map to hold the new entry
+        update := map[string]interface{}{
+            newKey: newPost,
+        }
+        err := ref.Update(ctx, update)
+    if err != nil {
+        log.Fatalln("Error setting value:", err)
+        c.String(http.StatusInternalServerError,"Internal Server Error")
+    }
+    c.String(http.StatusOK,"Successfully Posted!!")
+    }
+}
+
+func getPastPosts(ctx context.Context, client *db.Client)gin.HandlerFunc{
+	return func(c *gin.Context){
+		var pastPosts map[string]PastPosts
+		userRef := client.NewRef("server/saving-data/fireblog/pastPosts")
+		if err := userRef.Get(ctx, &pastPosts); err != nil {
+			log.Printf("error getting user data: %v", err)
+			c.String(http.StatusInternalServerError, "Error fetching posts")
+			return
+		}
+
+		// current_prices := make([]string, len(posts))
+		// var wg sync.WaitGroup
+		// errors := make(chan error, len(posts))
+
+		// i := 0
+		// for _, p := range posts {
+		// 	wg.Add(1)
+		// 	go func(i int, symbol, exchange string) {
+		// 		defer wg.Done()
+		// 		price, err := stockPriceHandler(symbol, exchange)
+		// 		if err != nil {
+		// 			errors <- err
+		// 			return
+		// 		}
+		// 		current_prices[i] = price
+		// 	}(i, p.Stock_name, p.Exchange)
+		// 	i++
+		// }
+
+		// wg.Wait()
+		// close(errors)
+
+		// for err := range errors {
+		// 	log.Printf("Error fetching stock price: %v", err)
+		// }
+
+		// log.Print("Current prices:", current_prices)
+		r := gintemplrenderer.New(c.Request.Context(), http.StatusOK, OldPosts(pastPosts))
+		c.Render(http.StatusOK, r)
+	}
 }

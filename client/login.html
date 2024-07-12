@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
+ <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
+ <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script> 
     <title>Login</title>
     <style>
         body {
@@ -17,6 +18,9 @@
             margin: 0;
         }
 
+        .notif{
+            padding: 10px;
+        }
         .main-container {
             display: flex;
             justify-content: center;
@@ -112,6 +116,11 @@
             color: #0056b3;
         }
 
+        .form.htmx-swapping td {
+                opacity: 0;
+                transition: opacity 1s ease-out;
+        }
+        
         @media (max-width: 768px) {
             body {
                 justify-content: center;
@@ -136,9 +145,11 @@
 <body>
     <div class="main-container">
         <div class="form-container">
-            <div class="container">
+            <div hx-ext="response-targets" class="container">
                 <img src="/images/KMS1.png" alt="KMS Logo">
                 <h2>Login</h2>
+                <div id="notif" class="notif"></div>
+                <!-- <form class="form" hx-post="/login" hx-target-error="#notif" hx::on hx-swap="#notif"> -->
                 <form action="/login" method="post">
                     <input type="text" name="Email" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
@@ -149,4 +160,12 @@
         </div>
     </div>
 </body>
+<script>
+    document.body.addEventListener('htmx:beforeOnLoad', function (evt) {
+    if (evt.detail.xhr.status === 400) {
+        evt.detail.shouldSwap = true;
+        evt.detail.isError = false;
+    }
+});
+</script>
 </html>

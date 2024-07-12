@@ -1,9 +1,10 @@
-<html lang="en">
+<!DOCTYPE html>
+<html id="body" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>Settings</title>
+    <title>News</title>
       <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
@@ -197,6 +198,7 @@
 .about-us h2 {
     margin-top: 0;
     text-align: left;
+    size: 100%;
 }
 
 h1 {
@@ -220,66 +222,6 @@ h1 {
 .company-info p{
   margin-left: 0;
 }
-
-.container {
-            width: 100%;
-            max-width: 420px;
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-        }
-
-        .container, .news-container h2 {
-            text-align: left;
-            margin-bottom: 20px;
-            color: #007bff;
-        }
-
-        .container img {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            margin-bottom: 20px;
-        }
-
-        .container input[type="text"],
-        .container input[type="password"], .container textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            border: 2px solid #007bff;
-            font-size: 16px;
-        }
-
-        .container input[type="text"]:focus,
-        .container input[type="password"]:focus, 
-        .container textarea:focus {
-            outline: none;
-            border-color: #0099cc;
-            box-shadow: 0 0 10px rgba(0, 153, 204, 0.4);
-        }
-
-        .container textarea{
-            height: 150px;
-        }
-
-        .container button {
-            width: 100%;
-            padding: 12px;
-            background-color: #2aec4d;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .container button:hover {
-            background-color: #0056b3;
-        }
-
 
     @keyframes slideInFromLeft {
       0% {
@@ -377,89 +319,49 @@ h1 {
         <div></div>
         <div></div>
       </div>
-</div>
       <ul class="nav-links">
-        <li><a href="/admin/post">New Post</a></li>
-        <li><a href="/admin/edit">Post settings</a></li>
+        <li><a href="/auth/dashboard">Stock Recommendations</a></li>
+        <li><a href="/auth/news">News</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/auth/pastPosts">Past recommendations</a></li>
       </ul>
-      <!-- <div class="btn">
-        <button class="btn-login">Login</button>
-        <button class="btn-signup">Signup</button>
-      </div> -->
+      <div class="btn">
+      
+        <button type="submit" class="btn-login" onclick="deleteAllCookies();window.location.href='/auth/logout'">Logout</button>
+        <script>        
+        function deleteAllCookies() {
+            const cookies = document.cookie.split("; ");
+            for (let c = 0; c < cookies.length; c++) {
+                const d = window.location.hostname.split(".");
+                while (d.length > 0) {
+                    const cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) +
+                          '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+                    const p = window.location.pathname.split('/');
+                    document.cookie = cookieBase + '/';
+                    while (p.length > 0) {
+                        document.cookie = cookieBase + p.join('/');
+                        p.pop();
+                    };
+                    d.shift();
+                }
+            }
+        }
+        </script>
+      </div>
       <div class="nav-links-mobile">
-        <a href="/admin/post">New Post</a>
-        <a href="/admin/edit">Post settings</a>
-        <button class="btn-login">Login</button>
-        <button class="btn-signup">Signup</button>
+        <li><a href="/auth/dashboard">Stock Recommendations</a></li>
+        <li><a href="/auth/news">News</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/auth/pastPosts">Past recommendations</a></li>
+        <!-- <button class="btn-login">Logout</button> -->
       </div>
     </nav>
   </header>
-  <section id="contact" class="about-us" hx-boost="true" hx-get="/admin/posts" hx-trigger="load" hx-target="#posts-container" hx-on:htmx:after-request="calculateGrowth(this)">
-    <div style="display: flex; align-items: center; flex-wrap: wrap;"></div>
-        <div class="form-container">
-            <div class="container">
-                <h2>Post</h2>
-                    <div id="posts-container" class="posts-container" >
-                      Loading Posts...
-                    </div>
-        </div>
+    <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/getNews" hx-trigger="load" hx-target="#news-container">
+    <h2>News</h2>
+    <div id="news-container" class="container">
+      Loading News...
     </div>
-    <script>
-    async function calculateGrowth(element) {
-    console.log('Element:', element);
-    var rows = document.getElementsByTagName("tr")
-    console.log(rows)
-    //const row = element.closest('tr');
-    for(let i=1; i<rows.length;i++){
-    var row = rows[i]
-    console.log('Row:', row);
-    
-    if (!row) {
-        console.error('No row found');
-        return;
-    }
-
-    const buyingPriceElement = row.querySelector('.buying-price');
-    const currentPriceElement = row.querySelector('.current-price');
-    const growthElement = row.querySelector('.growth');
-
-    console.log('Buying Price Element:', buyingPriceElement);
-    console.log('Current Price Element:', currentPriceElement);
-    console.log('Growth Element:', growthElement);
-
-    if (!buyingPriceElement || !currentPriceElement || !growthElement) {
-        console.error('Missing required elements');
-        return;
-    }
-
-
-    const buyingPrice = parseFloat(buyingPriceElement.textContent);
-    const currentPrice = parseFloat(currentPriceElement.textContent);
-
-    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
-        const growth = currentPrice - buyingPrice;
-        const growthPercentage = (growth / buyingPrice) * 100;
-        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
-        
-        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
-    } else {
-        growthElement.textContent = 'N/A';
-    }}
-}
-    </script>  
     </section>
-
-<section class="about-us" hx-get="/admin/news" hx-boost="true" hx-trigger="load" hx-target="#news-container">
-    <div class="about-content">
-        <div class="form-container">
-            <div class="container">
-                <h2>News</h2>
-                <div id="news-container" class="news-container" >
-                  Loading News...
-                </div>
-        </div>
-        <div class="notif"></div>
-    </div>
-</section>
 </body>
 </html>
