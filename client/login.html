@@ -149,8 +149,8 @@
                 <img src="/images/KMS1.jpg" alt="KMS Logo">
                 <h2>Login</h2>
                 <div id="notif" class="notif"></div>
-                <form class="form" hx-replace-url="true" hx-post="/login" hx-swap-oob="true" hx-swap="outerHTML">
-                <!-- <form action="/login" method="post"> -->
+                <!-- <form class="form" hx-replace-url="true" hx-post="/login" hx-swap-oob="true" hx-swap="outerHTML"> -->
+                <form action="/login" method="post">
                     <input type="text" name="Email" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <button type="submit">Login</button>
