@@ -142,7 +142,9 @@
         }
     </style>
 </head>
-<body hx-boost="true">
+<!-- <body hx-boost="true"> -->
+    <body>
+        
     <div class="main-container">
         <div class="form-container">
             <div hx-ext="response-targets" class="container">
@@ -160,12 +162,12 @@
         </div>
     </div>
 </body>
-<script>
+<!-- <script>
     document.body.addEventListener('htmx:beforeOnLoad', function (evt) {
     if (evt.detail.xhr.status === 400) {
         evt.detail.shouldSwap = true;
         evt.detail.isError = false;
     }
 });
-</script>
+</script> -->
 </html>
