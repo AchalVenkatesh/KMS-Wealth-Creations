@@ -51,6 +51,9 @@ func main(){
 	auth.GET("/pastPosts",func(c *gin.Context){
 		c.HTML(http.StatusOK,"past-targets.html","")
 	})
+	auth.GET("/privacy",func(c *gin.Context){
+		c.HTML(http.StatusOK,"privacy_policy.html","hello")
+	})
 	auth.GET("/news",func(c *gin.Context){
 		c.HTML(http.StatusOK,"news.html","")
 	})
@@ -72,6 +75,9 @@ func main(){
 	admin.GET("/settings",func(c *gin.Context){
 		c.HTML(http.StatusOK,"post-settings.html","")
 	})
+		admin.GET("/privacy",func(c *gin.Context){
+		c.HTML(http.StatusOK,"privacy_policy.html","hello")
+	})
 	admin.POST("/post",postPosts(ctx,client))
 	admin.POST("/news",postNews(ctx,client))
 	admin.GET("/posts",getPostsAdmin(ctx,client))
@@ -88,6 +94,9 @@ func main(){
 	
 	router.GET("/home",func(c *gin.Context){
 		c.HTML(http.StatusOK,"Home.html","hello")
+	})
+	router.GET("/privacy",func(c *gin.Context){
+		c.HTML(http.StatusOK,"privacy_policy.html","hello")
 	})
 	router.GET("/aboutus",func(c *gin.Context){
 		c.HTML(http.StatusOK,"aboutus.html","hello")
