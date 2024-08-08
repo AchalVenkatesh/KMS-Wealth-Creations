@@ -411,7 +411,7 @@ func getNewsAdmin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		if err := userRef.Get(ctx, &news); err != nil {
     		log.Fatalf("error getting user data: %v", err)
 		}
-		log.Print(news)
+		// log.Print(news)
 		r := gintemplrenderer.New(c.Request.Context(), http.StatusOK,AdminNews(news))
 		c.Render(http.StatusOK, r)
 	}
@@ -420,7 +420,9 @@ func getNewsAdmin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 func deletePosts(ctx context.Context, client *db.Client)gin.HandlerFunc{
 	return func(c *gin.Context){
 		id := c.Query("stock-name")
-		userRef := client.NewRef("server/saving-data/fireblog/posts").Child(id)
+		fmt.Println(id)
+		userRef := client.NewRef(fmt.Sprintf("server/saving-data/fireblog/posts/%s",id))
+		fmt.Println(userRef)
 		if err := userRef.Delete(ctx); err != nil {
 			log.Fatalf("error deleting user data: %v", err)
 		}

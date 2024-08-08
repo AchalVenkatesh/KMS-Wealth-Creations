@@ -1,6 +1,9 @@
 package main
 
-import "sort"
+import (
+    "sort"
+    "fmt"
+)
 
 templ PostsTemplate(posts map[string]Posts) {
 	<div class="postsTemplate">
@@ -128,7 +131,7 @@ templ AdminPosts(posts map[string]Posts){
                 .delete-icon {
                     margin-right: 8px;
                 }
-                tr.htmx-swapping td {
+                tr.htmx-swapping{
                 opacity: 0;
                 transition: opacity 1s ease-out;
                 }
@@ -145,7 +148,7 @@ templ AdminPosts(posts map[string]Posts){
                 <th>Comments</th>
             </tr>
             for _, p := range posts {
-                <tr>
+                <tr id={"row-" + p.Stock_name}>
                     <td>{ p.Stock_name }</td>
                     <td class="buying-price">{ p.Buying_price }</td>
                     <td>{ p.Target_price }</td>
@@ -156,7 +159,8 @@ templ AdminPosts(posts map[string]Posts){
                     <td class="growth">Calculating Growth...</td>
                     <td>{ p.Comments }</td>
                     <td>
-                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete="/admin/deletePosts" hx-params="*">Delete</button>
+                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete={addParam(p.Stock_name)} hx-target={"#row-" + p.Stock_name}
+hx-swap="outerHTML swap:1s">Delete</button>
                     </td>
                 </tr>
             }
@@ -305,4 +309,8 @@ templ OldPosts(pastPosts map[string]PastPosts){
             </table>
         </div>
     </div>
+}
+
+func addParam(stock string) string{
+    return fmt.Sprintf("/admin/deletePosts?stock-name=%s",stock)
 }
