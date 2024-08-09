@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
  <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script> 
+ <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
     <title>Login</title>
     <style>
         body {
@@ -150,9 +151,9 @@
             <div hx-ext="response-targets" class="container">
                 <img src="/images/KMS1.jpg" alt="KMS Logo">
                 <h2>Login</h2>
-                <div id="notif" class="notif"></div>
-                <!-- <form class="form" hx-replace-url="true" hx-post="/login" hx-swap-oob="true" hx-swap="outerHTML"> -->
-                <form action="/login" method="post">
+                <div id="notif" class="notif" style="padding-bottom: 20px; color:red"></div>
+                <form class="form" hx-push-url="true" hx-post="/login" hx-swap-oob="true" hx-target-400="#notif" hx-swap="innerHTML">
+                <!-- <form action="/login" method="post"> -->
                     <input type="text" name="Email" placeholder="Username" required>
                     <input type="password" name="password" placeholder="Password" required>
                     <button type="submit">Login</button>

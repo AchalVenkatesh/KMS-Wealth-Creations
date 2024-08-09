@@ -210,24 +210,29 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		userRef := client.NewRef("server/saving-data/fireblog/users").Child(username)
 		if err := userRef.Get(ctx, &userData); err != nil {
     		log.Fatalf("error getting user data: %v", err)
+			c.String(http.StatusInternalServerError,"There was some error while fetching user data. Please try again")
+			return
 		}
 		stored_password = userData.Password
 		fmt.Println(stored_password)
 
 		err := checkPasswordHash(password,stored_password)
 		if err!= nil {
-			fmt.Println("Wrong password: ", err)
+			fmt.Println("Wrong password: ", err)	
 			// c.String(http.StatusBadRequest, "<div id=\"notif\" class=\"notif\" hx-swap-oob=\"true\">Wrong Password!!</div>")
 			c.String(http.StatusBadRequest,"Wrong Password!!")
+			return
 		}
 		
 		erro:=utils.GenerateTokensAndSetCookies(userData.Email,c)
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
+			c.String(http.StatusInternalServerError,"Couldn't generate token. Please try again")
+			return
 		}
-		
-		c.Redirect(http.StatusMovedPermanently,"/auth/dashboard")
-		 
+		c.Header("Hx-Redirect","/auth/dashboard")
+		c.Header("Hx-Push-Url","/auth/dashboard")
+		c.HTML(http.StatusOK,"dashboard.html","hello")
 	}
 }
 
@@ -253,6 +258,7 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 		userRef := client.NewRef("server/saving-data/fireblog/admins").Child(username)
 		if err := userRef.Get(ctx, &adminData); err != nil {
     		log.Fatalf("error getting user data: %v", err)
+			c.String(http.StatusInternalServerError,"Couldn't get user data.Please try again")
 		}
 		stored_password = adminData.Password
 		fmt.Println(stored_password)
@@ -261,13 +267,18 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 		if err!= nil {
 			fmt.Println("Wrong password: ", err)
 			c.String(http.StatusBadRequest, "Wrong Password!!")
+			return
 		}
 		
 		erro:=utils.GenerateTokensAndSetCookies(adminData.Username,c)
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
+			c.String(http.StatusInternalServerError,"Internal Server Error. Please try again")
+			return
 		}
-		c.Redirect(http.StatusMovedPermanently,"/admin/post")
+		c.Header("Hx-Redirect","/auth/dashboard")
+		c.Header("Hx-Push-Url","/auth/dashboard")
+		c.HTML(http.StatusOK,"admin.html","hello")
 		 
 	}
 }
@@ -307,6 +318,7 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
         log.Fatalln("Error setting value:", err)
         c.String(http.StatusInternalServerError,"Internal Server Error")
     }
+	c.Header("Hx-Refresh","true")
     c.String(http.StatusOK,"Successfully Posted!!")
     }
 }
