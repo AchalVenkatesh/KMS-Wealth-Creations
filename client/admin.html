@@ -394,7 +394,7 @@
         <div class="form-container">
             <div class="container">
                 <h2>Stock recommendations</h2>
-                <form hx-post="/admin/post" hx-target="#notif" hx-swap="#notif">
+                <form id="form" hx-post="/admin/post" hx-target="#notif" hx-swap="#notif">
                     <input type="text" name="name" placeholder="Stock Name" required>
                     <input type="text" name="buying_price" placeholder="Buying Price" required>
                     <input type="text" name="target_price" placeholder="Target Price" required>
@@ -409,6 +409,9 @@
                     <button type="submit">Post</button>
                 </form>
             </div>
+            <script>document.body.addEventListener("reset", function(evt){
+    document.getElementById("form").reset();
+}) </script>
             <div id="notif" class="notif"></div>
         </div>
     </section>

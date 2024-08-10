@@ -86,7 +86,9 @@ func main(){
 	admin.DELETE("/deleteNews",deleteNews(ctx,client))
 	
 
-
+	router.GET("/signup",func(c *gin.Context){
+		c.HTML(http.StatusOK,"signup.html","hello")
+	})
 	router.GET("/",func(c *gin.Context){
 		c.HTML(http.StatusOK,"index.html",gin.H{})
 	})
@@ -318,7 +320,8 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
         log.Fatalln("Error setting value:", err)
         c.String(http.StatusInternalServerError,"Internal Server Error")
     }
-	c.Header("Hx-Refresh","true")
+	// c.Header("Hx-Refresh","true")
+	c.Header("Hx-Trigger-After-Swap","reset")
     c.String(http.StatusOK,"Successfully Posted!!")
     }
 }
