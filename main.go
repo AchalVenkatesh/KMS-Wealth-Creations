@@ -5,13 +5,18 @@ import (
 	//"log"
 	//"net/http"
 	//"path/filepath"
+	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/smtp"
+	"os"
 	"strings"
+	"text/template"
 
 	// "sync"
 
@@ -78,10 +83,15 @@ func main(){
 		admin.GET("/privacy",func(c *gin.Context){
 		c.HTML(http.StatusOK,"privacy_policy.html","hello")
 	})
+		admin.GET("/usersToVerify",func(c *gin.Context){
+		c.HTML(http.StatusOK,"verify.html","")
+	})
 	admin.POST("/post",postPosts(ctx,client))
 	admin.POST("/news",postNews(ctx,client))
 	admin.GET("/posts",getPostsAdmin(ctx,client))
 	admin.GET("/news",getNewsAdmin(ctx,client))
+	admin.GET("/verify",getUsers(ctx,client))
+	admin.PUT("/verify",verify(ctx,client))
 	admin.DELETE("/deletePosts",deletePosts(ctx,client))
 	admin.DELETE("/deleteNews",deleteNews(ctx,client))
 	
@@ -168,12 +178,15 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 	return func(c *gin.Context){
 		log.Println("Hello from registerUser")
 		//getting data from post request form
+		name:=c.PostForm("name")
 		username:=c.PostForm("username")
 		fmt.Println(username)
 		Email:=c.PostForm("Email")
 		fmt.Println(Email)
 		password:=c.PostForm("password")
 		phone_number:=c.PostForm("Phone Number")
+		transactionID:=c.PostForm("Transaction ID")
+
 
 		//hashing the password
 		password, err := hashPassword(password)
@@ -186,17 +199,20 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 		usersRef := ref.Child("users")
 		err = usersRef.Set(ctx, map[string]*Users{
         username: {
+				Name: name,
                 Username: username,
 				Email: Email,
 				Password: password,
 				PhoneNumber: phone_number,
+				TransactionID: transactionID,
+				Verified: false,
         },
 		})
 	if err != nil {
         log.Fatalln("Error setting value:", err)
 		c.String(http.StatusInternalServerError,"Internal Server Error")
 	}
-	c.String(http.StatusOK,"Successfully registered!")
+	c.String(http.StatusOK,"<h1>Successfully registered!<h1>")
 }
 }
 
@@ -299,7 +315,7 @@ func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
 
         //saving the data in the firebase db
         ref := client.NewRef("server/saving-data/fireblog/posts")
-		        newPost := Posts{
+		newPost := Posts{
             Comments:      comments,
             Buying_price: buying_price,
             Exchange:      exchange,
@@ -634,4 +650,130 @@ func getPastPosts(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		r := gintemplrenderer.New(c.Request.Context(), http.StatusOK, OldPosts(pastPosts))
 		c.Render(http.StatusOK, r)
 	}
+}
+
+func getUsers(ctx context.Context, client *db.Client)gin.HandlerFunc{
+	return func(c *gin.Context){
+		var users map[string]Users
+		// Hey:="RELIANCE"
+		userRef := client.NewRef("server/saving-data/fireblog/users")
+		if err := userRef.Get(ctx, &users); err != nil {
+    		log.Fatalf("error getting user data: %v", err)
+		}
+		// log.Print(posts)
+		r := gintemplrenderer.New(c.Request.Context(), http.StatusOK,VerifyUsers(users))
+		c.Render(http.StatusOK, r)
+	}
+}
+
+func verify(ctx context.Context, client *db.Client)gin.HandlerFunc{
+	return func(c *gin.Context){
+		username:=c.Query("username")
+		email:=c.Query("email")
+		userRef:=client.NewRef("server/saving-data/fireblog/users").Child(username)
+		err := userRef.Update(ctx, map[string]interface{}{
+        "Verified": true,
+		})
+		if err != nil {
+        log.Fatalln("Error updating child:", err)
+		c.String(http.StatusInternalServerError,"Couldn't change the user to verified")
+		}
+		c.String(http.StatusOK,"Verified !!")
+		sendMail(email, username)
+	}
+}
+
+func sendMail(email string, username string){
+	from := "<info@arohanatradingacademy.org>"
+  	password := "freedom@kmswealthcreations.com"
+
+  // Receiver email address.
+  to := []string{
+    fmt.Sprintf("<%s>",email),
+  }
+
+  // smtp server configuration.
+  smtpHost := "mail.privateemail.com"
+  smtpPort := "465"
+
+  // Authentication.
+  auth := smtp.PlainAuth("", from, password, smtpHost)
+
+	f, err := os.Create("template.html")
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
+	}
+
+	err = mailTemplate(username).Render(context.Background(), f)
+	if err != nil {
+		log.Fatalf("failed to write output file: %v", err)
+	}
+  	t, err := template.ParseFiles("template.html")
+	if err != nil {
+        log.Fatalf("failed to parse template: %v\n", err)
+    }
+
+
+  var body bytes.Buffer
+
+  mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+  body.Write([]byte(fmt.Sprintf("Subject: Your Account has been Verified! \n%s\n\n", mimeHeaders)))
+
+  err=t.Execute(&body, struct {
+    Name    string
+    Message string
+  }{
+    Name:    username,
+    Message: "Your account has been Verified",
+  })
+    if err != nil {
+        log.Fatalf("failed to execute template: %v", err)
+    }
+  // Sending email.
+    // Create TLS config
+    tlsConfig := &tls.Config{
+        InsecureSkipVerify: true,
+        ServerName:         smtpHost,
+    }
+
+    // Create a new TLS connection
+    conn, err := tls.Dial("tcp", smtpHost+":"+smtpPort, tlsConfig)
+    if err != nil {
+        log.Fatalf("failed to create TLS connection: %v", err)
+    }
+
+    client, err := smtp.NewClient(conn, smtpHost)
+    if err != nil {
+        log.Fatalf("failed to create SMTP client: %v", err)
+    }
+
+    // Authenticate
+    if err = client.Auth(auth); err != nil {
+        log.Fatalf("failed to authenticate: %v", err)
+    }
+
+    // Set the sender and recipient
+    if err = client.Mail(from); err != nil {
+        log.Fatalf("failed to set sender: %v", err)
+    }
+    if err = client.Rcpt(to[0]); err != nil {
+        log.Fatalf("failed to set recipient: %v", err)
+    }
+
+    // Send the email body
+    writer, err := client.Data()
+    if err != nil {
+        log.Fatalf("failed to open data connection: %v", err)
+    }
+    _, err = writer.Write(body.Bytes())
+    if err != nil {
+        log.Fatalf("failed to write email body: %v", err)
+    }
+    err = writer.Close()
+    if err != nil {
+        log.Fatalf("failed to close data connection: %v", err)
+    }
+
+    client.Quit()
+  fmt.Println("Email Sent!")
 }

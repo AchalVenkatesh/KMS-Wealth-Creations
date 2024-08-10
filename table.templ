@@ -159,7 +159,7 @@ templ AdminPosts(posts map[string]Posts){
                     <td class="growth">Calculating Growth...</td>
                     <td>{ p.Comments }</td>
                     <td>
-                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete={addParam(p.Stock_name)} hx-target={"#row-" + p.Stock_name}
+                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete={addParam(p.Stock_name, "/deletePosts")} hx-target={"#row-" + p.Stock_name}
 hx-swap="outerHTML swap:1s">Delete</button>
                     </td>
                 </tr>
@@ -311,6 +311,126 @@ templ OldPosts(pastPosts map[string]PastPosts){
     </div>
 }
 
-func addParam(stock string) string{
-    return fmt.Sprintf("/admin/deletePosts?stock-name=%s",stock)
+templ VerifyUsers(users map[string]Users){
+    <div class="postsTemplate">
+    <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+
+                .delete-btn {
+                    background-color: red;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    padding: 8px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    border-radius: 4px;
+                }
+                .delete-btn:hover {
+                    background-color: darkred;
+                }
+                .delete-icon {
+                    margin-right: 8px;
+                }
+                tr.htmx-swapping{
+                opacity: 0;
+                transition: opacity 1s ease-out;
+                }
+    </style>
+	<div class="postsTemplatePost">
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>Transaction ID</th>
+                <th>Verify</th>
+            </tr>
+            for _, p := range users {
+                if p.Verified==false{
+                    <tr id={"row-" + p.Username}>
+                    <td>{ p.Name }</td>
+                    <td>{ p.Username }</td>
+                    <td class="buying-price">{ p.Email }</td>
+                    <td>{p.PhoneNumber}</td>
+                    <td>{p.TransactionID}</td>
+                    <td>
+                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-put={oneMoreParam(p.Username, "/verify")} hx-target={"#row-" + p.Username} hx-swap="outerHTML swap:1s">Verify</button>
+                    </td>
+                    </tr>
+                }
+            }
+        </table>
+	</div>	
+	</div>
+}
+
+templ mailTemplate(username string){
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Email</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
+        <tr>
+            <td style="padding: 20px; text-align: center; background-color: #ffffff;">
+                <img src="https://www.arohanatradingacademy.com/images/KMS1.jpg" alt="Arohana Trading Academy Logo" style="max-width: 200px; height: auto;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; background-color: #f4f4f4;">
+                <h1 style="color: #444; text-align: center;">Confirmation Email</h1>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; background-color: #ffffff;">
+                <p>Dear {username},</p>
+                <p>Thank you for registering with us! This email is to inform you that your account has been verified by the admins.</p>
+                <p>You can now join the elite WhatsApp group through the following link</p>
+                <p><a href="">Join the WhatsApp Group</a></p>
+                <p>If you have any questions or concerns, please don't hesitate to contact us.</p>
+                <p>You can proceed to login through your credentials by clicking the following button: </p>
+                <p style="text-align: center;">
+                    <a href="https://www.arohanatradingacademy.com/login" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Login</a>
+                </p>
+                <p>Thank you for choosing our service!</p>
+                <p>Best regards,<br>Arohana Trading Academy</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; background-color: #f4f4f4; text-align: center;">
+                <p>&copy; 2024 Arohana Trading Academy. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+}
+
+func addParam(param string, route string) string{
+    return fmt.Sprintf("/admin/deletePosts?stock-name=%s",param)
+}
+
+func oneMoreParam(param1 string, param2 string) string{
+        return fmt.Sprintf("/admin/verify?username=%s&email=%s",param1,param2)
 }

@@ -6,11 +6,13 @@ const (
 )
 
 type Users struct{
+	Name string `form:"name"`
 	Email string `form:"email"`
 	Username string `form: "username"`
 	Password string `form: "password"`
-	CPassword string `form: "cpassword"`
 	PhoneNumber string `form: "phoneNumber"`
+	TransactionID string `form: "transactionID"`
+	Verified bool
 }
 
 type Admin struct{
