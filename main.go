@@ -4,19 +4,15 @@ import (
 	//"fmt"
 	//"log"
 	//"net/http"
-	//"path/filepath"
-	"bytes"
-	"context"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/smtp"
-	"os"
+	"context"
+	// "os"
 	"strings"
-	"text/template"
+	// "text/template"
 
 	// "sync"
 
@@ -141,7 +137,6 @@ func main(){
 
 	router.POST("/admin",adminLogin(ctx,client))
 	router.POST("/signup",registerUser(ctx,client))
-
 	router.POST("/login",login(ctx, client))
 	router.POST("/pastPosts",postPastPosts(ctx,client))
 	// Run the server on port 8080
@@ -294,11 +289,10 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 			c.String(http.StatusInternalServerError,"Internal Server Error. Please try again")
 			return
 		}
-		c.Header("Hx-Redirect","/auth/dashboard")
-		c.Header("Hx-Push-Url","/auth/dashboard")
+		c.Header("Hx-Redirect","/admin/post")
+		c.Header("Hx-Push-Url","/admin/post")
 		c.HTML(http.StatusOK,"admin.html","hello")
-		 
-	}
+		}
 }
 
 func postPosts(ctx context.Context, client *db.Client) gin.HandlerFunc{
@@ -670,6 +664,7 @@ func verify(ctx context.Context, client *db.Client)gin.HandlerFunc{
 	return func(c *gin.Context){
 		username:=c.Query("username")
 		email:=c.Query("email")
+		fmt.Println(email)
 		userRef:=client.NewRef("server/saving-data/fireblog/users").Child(username)
 		err := userRef.Update(ctx, map[string]interface{}{
         "Verified": true,
@@ -679,101 +674,85 @@ func verify(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		c.String(http.StatusInternalServerError,"Couldn't change the user to verified")
 		}
 		c.String(http.StatusOK,"Verified !!")
-		sendMail(email, username)
+		// sendMail(email, username)
 	}
 }
 
-func sendMail(email string, username string){
-	from := "<info@arohanatradingacademy.org>"
-  	password := "freedom@kmswealthcreations.com"
+// func sendMail(email string, username string) {
+// 	from := "info@arohanatradingacademy.org"
+// 	password := "freedom@kmswealthcreations.com"
 
-  // Receiver email address.
-  to := []string{
-    fmt.Sprintf("<%s>",email),
-  }
+// 	to := []string{email}
 
-  // smtp server configuration.
-  smtpHost := "mail.privateemail.com"
-  smtpPort := "465"
+// 	smtpHost := "mail.privateemail.com"
+// 	smtpPort := "465"
 
-  // Authentication.
-  auth := smtp.PlainAuth("", from, password, smtpHost)
+// 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
-	f, err := os.Create("template.html")
-	if err != nil {
-		log.Fatalf("failed to create output file: %v", err)
-	}
+// 	t, err := mailTemplate(username).Parse()
+// 	if err != nil {
+// 		log.Fatalf("failed to parse template: %v", err)
+// 	}
 
-	err = mailTemplate(username).Render(context.Background(), f)
-	if err != nil {
-		log.Fatalf("failed to write output file: %v", err)
-	}
-  	t, err := template.ParseFiles("template.html")
-	if err != nil {
-        log.Fatalf("failed to parse template: %v\n", err)
-    }
+// 	var body bytes.Buffer
 
+// 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+// 	body.Write([]byte(fmt.Sprintf("Subject: Your Account has been Verified!\n%s\n\n", mimeHeaders)))
 
-  var body bytes.Buffer
+// 	err = t.Execute(&body, struct {
+// 		Name    string
+// 		Message string
+// 	}{
+// 		Name:    username,
+// 		Message: "Your account has been Verified",
+// 	})
+// 	if err != nil {
+// 		log.Fatalf("failed to execute template: %v", err)
+// 	}
 
-  mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-  body.Write([]byte(fmt.Sprintf("Subject: Your Account has been Verified! \n%s\n\n", mimeHeaders)))
+// 	tlsConfig := &tls.Config{
+// 		ServerName: smtpHost,
+// 	}
 
-  err=t.Execute(&body, struct {
-    Name    string
-    Message string
-  }{
-    Name:    username,
-    Message: "Your account has been Verified",
-  })
-    if err != nil {
-        log.Fatalf("failed to execute template: %v", err)
-    }
-  // Sending email.
-    // Create TLS config
-    tlsConfig := &tls.Config{
-        InsecureSkipVerify: true,
-        ServerName:         smtpHost,
-    }
+// 	conn, err := tls.Dial("tcp", smtpHost+":"+smtpPort, tlsConfig)
+// 	if err != nil {
+// 		log.Fatalf("failed to create TLS connection: %v", err)
+// 	}
 
-    // Create a new TLS connection
-    conn, err := tls.Dial("tcp", smtpHost+":"+smtpPort, tlsConfig)
-    if err != nil {
-        log.Fatalf("failed to create TLS connection: %v", err)
-    }
+// 	client, err := smtp.NewClient(conn, smtpHost)
+// 	if err != nil {
+// 		log.Fatalf("failed to create SMTP client: %v", err)
+// 	}
 
-    client, err := smtp.NewClient(conn, smtpHost)
-    if err != nil {
-        log.Fatalf("failed to create SMTP client: %v", err)
-    }
+// 	defer client.Quit()
 
-    // Authenticate
-    if err = client.Auth(auth); err != nil {
-        log.Fatalf("failed to authenticate: %v", err)
-    }
+// 	if err = client.Auth(auth); err != nil {
+// 		log.Fatalf("failed to authenticate: %v", err)
+// 	}
 
-    // Set the sender and recipient
-    if err = client.Mail(from); err != nil {
-        log.Fatalf("failed to set sender: %v", err)
-    }
-    if err = client.Rcpt(to[0]); err != nil {
-        log.Fatalf("failed to set recipient: %v", err)
-    }
+// 	if err = client.Mail(from); err != nil {
+// 		log.Fatalf("failed to set sender: %v", err)
+// 	}
 
-    // Send the email body
-    writer, err := client.Data()
-    if err != nil {
-        log.Fatalf("failed to open data connection: %v", err)
-    }
-    _, err = writer.Write(body.Bytes())
-    if err != nil {
-        log.Fatalf("failed to write email body: %v", err)
-    }
-    err = writer.Close()
-    if err != nil {
-        log.Fatalf("failed to close data connection: %v", err)
-    }
+// 	for _, recipient := range to {
+// 		if err = client.Rcpt(recipient); err != nil {
+// 			log.Fatalf("failed to set recipient: %v", err)
+// 		}
+// 	}
 
-    client.Quit()
-  fmt.Println("Email Sent!")
-}
+// 	writer, err := client.Data()
+// 	if err != nil {
+// 		log.Fatalf("failed to open data connection: %v", err)
+// 	}
+
+// 	_, err = writer.Write(body.Bytes())
+// 	if err != nil {
+// 		log.Fatalf("failed to write email body: %v", err)
+// 	}
+
+// 	if err = writer.Close(); err != nil {
+// 		log.Fatalf("failed to close data connection: %v", err)
+// 	}
+
+// 	fmt.Println("Email Sent!")
+// }
