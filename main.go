@@ -765,9 +765,7 @@ func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		var username string
 		var stored_password string
 		username=c.PostForm("username")
-		fmt.Println(username)
 		password:=c.PostForm("password")
-		fmt.Println(password)
 		userRef := client.NewRef("server/saving-data/fireblog/users").Child(username)
 		if err := userRef.Get(ctx, &userData); err != nil {
     		log.Fatalf("error getting user data: %v", err)
@@ -775,7 +773,13 @@ func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			return
 		}
 		stored_password = userData.Password
-		fmt.Println(stored_password)
+		stored_username := userData.Username
+
+		if username != stored_username{
+			fmt.Println("The username doesn't exist! Sign-up first to get access")
+			c.String(http.StatusBadRequest,"The username doesn't exist! Sign-up first to get access")
+			return
+		}
 
 		err := checkPasswordHash(password,stored_password)
 		if err!= nil {
@@ -791,6 +795,6 @@ func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			c.String(http.StatusInternalServerError,"Couldn't generate token. Please try again")
 			return
 		}
-		c.String(http.StatusOK,"Successfully logged in!!")
+		c.String(http.StatusOK,username)
 	}
 }
