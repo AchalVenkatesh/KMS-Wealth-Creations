@@ -3,6 +3,8 @@ package main
 import (
     "sort"
     "fmt"
+    "net/url"
+    "strings"
 )
 
 templ PostsTemplate(posts map[string]Posts) {
@@ -148,7 +150,7 @@ templ AdminPosts(posts map[string]Posts){
                 <th>Comments</th>
             </tr>
             for _, p := range posts {
-                <tr id={"row-" + p.Stock_name}>
+                <tr id={"row-" + generateValidID(p.Stock_name)}>
                     <td>{ p.Stock_name }</td>
                     <td class="buying-price">{ p.Buying_price }</td>
                     <td>{ p.Target_price }</td>
@@ -159,7 +161,7 @@ templ AdminPosts(posts map[string]Posts){
                     <td class="growth">Calculating Growth...</td>
                     <td>{ p.Comments }</td>
                     <td>
-                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete={addParam(p.Stock_name, "/deletePosts")} hx-target={"#row-" + p.Stock_name}
+                        <button hx-confirm="Are you sure?" class="action-btn delete-btn" hx-delete={addParam(p.Stock_name, "/deletePosts")} hx-target={"#row-" + generateValidID(p.Stock_name)}
 hx-swap="outerHTML swap:1s">Delete</button>
                     </td>
                 </tr>
@@ -262,7 +264,7 @@ templ AdminNews(news map[string]News){
                 <tr hx-target="closest tr" hx-swap="outerHTML swap:1s">
                     <td class="stock-name" name="news">{ p.New }</td>
                     <td>
-                        <button class="action-btn delete-btn" hx-delete="/admin/deleteNews" hx-confirm="Are you sure?" hx-params="*">Delete</button>
+                        <button class="action-btn delete-btn" hx-delete={"/admin/deleteNews?news="+p.New} hx-confirm="Are you sure?">Delete</button>
                     </td>
                 </tr>
             }
@@ -428,9 +430,19 @@ templ mailTemplate(username string){
 }
 
 func addParam(param string, route string) string{
-    return fmt.Sprintf("/admin/deletePosts?stock-name=%s",param)
+    return fmt.Sprintf("/admin/deletePosts?stock-name=%s",url.PathEscape(param))
 }
 
 func oneMoreParam(param1 string, param2 string) string{
-        return fmt.Sprintf("/admin/verify?username=%s&email=%s",param1,param2)
+        return fmt.Sprintf("/admin/verify?username=%s&email=%s",url.PathEscape(param1),url.QueryEscape(param2))
+}
+
+func generateValidID(name string) string {
+    // Replace spaces and special characters with underscores
+    return strings.Map(func(r rune) rune {
+        if r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r >= '0' && r <= '9' {
+            return r
+        }
+        return '_'
+    }, name)
 }

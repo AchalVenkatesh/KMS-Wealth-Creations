@@ -4,12 +4,13 @@ import (
 	//"fmt"
 	//"log"
 	//"net/http"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"context"
+
 	// "os"
 	"strings"
 	// "text/template"
@@ -138,6 +139,7 @@ func main(){
 	router.POST("/admin",adminLogin(ctx,client))
 	router.POST("/signup",registerUser(ctx,client))
 	router.POST("/login",login(ctx, client))
+	router.POST("/appLogin",appLogin(ctx,client))
 	router.POST("/pastPosts",postPastPosts(ctx,client))
 	// Run the server on port 8080
 	getPosts(ctx,client)
@@ -216,7 +218,7 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		var userData Users
 		var username string
 		var stored_password string
-		username=c.PostForm("Email")
+		username=c.PostForm("username")
 		fmt.Println(username)
 		password:=c.PostForm("password")
 		fmt.Println(password)
@@ -264,7 +266,7 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 		var adminData Admin
 		var username string
 		var stored_password string
-		username=c.PostForm("Email")
+		username=c.PostForm("username")
 		fmt.Println(username)
 		password:=c.PostForm("password")
 		fmt.Println(password)
@@ -756,3 +758,39 @@ func verify(ctx context.Context, client *db.Client)gin.HandlerFunc{
 
 // 	fmt.Println("Email Sent!")
 // }
+
+func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
+	return func(c *gin.Context){
+		var userData Users
+		var username string
+		var stored_password string
+		username=c.PostForm("username")
+		fmt.Println(username)
+		password:=c.PostForm("password")
+		fmt.Println(password)
+		userRef := client.NewRef("server/saving-data/fireblog/users").Child(username)
+		if err := userRef.Get(ctx, &userData); err != nil {
+    		log.Fatalf("error getting user data: %v", err)
+			c.String(http.StatusInternalServerError,"There was some error while fetching user data. Please try again")
+			return
+		}
+		stored_password = userData.Password
+		fmt.Println(stored_password)
+
+		err := checkPasswordHash(password,stored_password)
+		if err!= nil {
+			fmt.Println("Wrong password: ", err)	
+			// c.String(http.StatusBadRequest, "<div id=\"notif\" class=\"notif\" hx-swap-oob=\"true\">Wrong Password!!</div>")
+			c.String(http.StatusBadRequest,"Wrong Password!!")
+			return
+		}
+		
+		erro:=utils.GenerateTokensAndSetCookies(userData.Email,c)
+		if erro!=nil{
+			log.Println("Error generating Token: ",erro)
+			c.String(http.StatusInternalServerError,"Couldn't generate token. Please try again")
+			return
+		}
+		c.String(http.StatusOK,"Successfully logged in!!")
+	}
+}
