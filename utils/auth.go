@@ -12,10 +12,15 @@ const (
     accessTokenCookieName  = "access-token"
     // Just for the demo purpose, I declared a secret here. In the real-world application, you might need to get it from the env variables.
 	jwtSecretKey = "I-am-a-TRADER"
+	adminSecretKey = "I-am-an-ADMIN"
 )
 
 func GetJWTSecret() string {
 	return jwtSecretKey
+}
+
+func GetADMINSecret()string{
+	return adminSecretKey
 }
 
 // Create a struct that will be encoded to a JWT.
@@ -36,6 +41,22 @@ func GenerateTokensAndSetCookies(user string, c *gin.Context) error {
 	setUserCookie(user, exp, c)
 
 	return nil
+}
+
+func GenerateTokensForAdmin(admin string, c *gin.Context)error{
+	accessToken, exp, err := generateAdminToken(admin)
+	if err!=nil{
+		return err
+	}
+
+	setTokenCookie(accessTokenCookieName, accessToken, exp, c)
+	setUserCookie(admin, exp, c)
+	return nil
+}
+
+func generateAdminToken(admin string) (string, time.Time, error) {
+	expirationTime := time.Now().Add(12*time.Hour)
+	return generateToken(admin, expirationTime, []byte(GetADMINSecret()))
 }
 
 func generateAccessToken(user string) (string, time.Time, error) {

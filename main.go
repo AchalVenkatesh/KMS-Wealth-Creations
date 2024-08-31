@@ -70,7 +70,7 @@ func main(){
 	// })
 
 	admin := router.Group("/admin")
-	admin.Use(utils.AuthMiddleWare())
+	admin.Use(utils.AdminMiddleWare())
 	admin.GET("/post",func(c *gin.Context){
 		c.HTML(http.StatusOK,"admin.html","sent posts")
 	})
@@ -85,6 +85,7 @@ func main(){
 	})
 	admin.POST("/post",postPosts(ctx,client))
 	admin.POST("/news",postNews(ctx,client))
+	admin.POST("/elite",postElite(ctx,client))
 	admin.GET("/posts",getPostsAdmin(ctx,client))
 	admin.GET("/news",getNewsAdmin(ctx,client))
 	admin.GET("/verify",getUsers(ctx,client))
@@ -142,7 +143,7 @@ func main(){
 	router.POST("/appLogin",appLogin(ctx,client))
 	router.POST("/pastPosts",postPastPosts(ctx,client))
 	// Run the server on port 8080
-	getPosts(ctx,client)
+	// getPosts(ctx,client)
 	router.Run(":8080")
 }
 
@@ -257,7 +258,7 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			return
 		}
 		
-		erro:=utils.GenerateTokensAndSetCookies(userData.Email,c)
+		erro:=utils.GenerateTokensAndSetCookies(userData.Username,c)
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
 			c.String(http.StatusInternalServerError,"Couldn't generate token. Please try again")
@@ -305,7 +306,7 @@ func adminLogin(ctx context.Context,client *db.Client)gin.HandlerFunc{
 			return
 		}
 		
-		erro:=utils.GenerateTokensAndSetCookies(adminData.Username,c)
+		erro:=utils.GenerateTokensForAdmin(adminData.Username,c)
 		if erro!=nil{
 			log.Println("Error generating Token: ",erro)
 			c.String(http.StatusInternalServerError,"Internal Server Error. Please try again")
@@ -383,10 +384,19 @@ func postNews(ctx context.Context, client *db.Client)gin.HandlerFunc{
 func getPosts(ctx context.Context, client *db.Client) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var posts map[string]Posts
+		var elitePosts map[string]Posts
+		// username
 		userRef := client.NewRef("server/saving-data/fireblog/posts")
 		if err := userRef.Get(ctx, &posts); err != nil {
 			log.Printf("error getting user data: %v", err)
 			c.String(http.StatusInternalServerError, "Error fetching posts")
+			return
+		}
+
+		eliteRef := client.NewRef("sever/saving-data/fireblog/elite-posts")
+		if err := eliteRef.Get(ctx, &elitePosts);err!=nil{
+			log.Println("error getting elite data: %v",err)
+			c.String(http.StatusInternalServerError,"Error fetching elite posts")
 			return
 		}
 
@@ -816,5 +826,43 @@ func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			return
 		}
 		c.String(http.StatusOK,username)
+	}
+}
+
+func postElite(ctx context.Context, client *db.Client)gin.HandlerFunc{
+	return func(c *gin.Context) {
+		stock_name:=c.PostForm("name")
+        buying_price:=c.PostForm("buying_price")
+        target_price:=c.PostForm("target_price")
+        comments:=c.PostForm("comments")
+        exchange:=c.PostForm("exchange")
+		current_price:=c.PostForm("current_price")
+
+        //saving the data in the firebase db
+        ref := client.NewRef("server/saving-data/fireblog/elite-posts")
+		newPost := Posts{
+            Comments:      comments,
+            Buying_price: buying_price,
+            Exchange:      exchange,
+            Stock_name:    stock_name,
+            Target_price:  target_price,
+			Current_price: current_price,
+        }
+
+        // Generate a new key
+        newKey := stock_name
+
+        // Create a map to hold the new entry
+        update := map[string]interface{}{
+            newKey: newPost,
+        }
+        err := ref.Update(ctx, update)
+    if err != nil {
+        log.Fatalln("Error setting value:", err)
+        c.String(http.StatusInternalServerError,"Internal Server Error")
+    }
+	// c.Header("Hx-Refresh","true")
+	c.Header("Hx-Trigger-After-Swap","reset")
+    c.String(http.StatusOK,"Successfully Posted!!")
 	}
 }
