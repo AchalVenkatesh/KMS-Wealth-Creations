@@ -24,11 +24,13 @@ func AuthMiddleWare()gin.HandlerFunc {
         })
 
         if err != nil {
+            c.Header("Hx-Redirect","/login")
             c.AbortWithStatus(http.StatusUnauthorized)
             return
         }
 
         if !token.Valid {
+            c.Header("Hx-Redirect","/login")
             c.AbortWithStatus(http.StatusUnauthorized)
             return
         }

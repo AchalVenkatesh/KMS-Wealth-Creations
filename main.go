@@ -174,6 +174,7 @@ func setUpDB(ctx context.Context) (*db.Client, error){
 func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 	return func(c *gin.Context){
 		log.Println("Hello from registerUser")
+		elite:=false
 		//getting data from post request form
 		name:=c.PostForm("name")
 		username:=c.PostForm("username")
@@ -183,8 +184,16 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 		password:=c.PostForm("password")
 		phone_number:=c.PostForm("Phone Number")
 		transactionID:=c.PostForm("Transaction ID")
+		course:=c.PostForm("course")
+		referralID:=fmt.Sprintf("%c%c%c%c",username[0],username[1],username[2],username[3])
+		referralID=strings.ToUpper(referralID)
+		referralID = referralID + utils.RandString(4)
+		
+		if course =="elite"{
+			elite = true
+		}
 
-
+		fmt.Println(course)
 		//hashing the password
 		password, err := hashPassword(password)
 		if err!=nil{
@@ -203,6 +212,9 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 				PhoneNumber: phone_number,
 				TransactionID: transactionID,
 				Verified: false,
+				ReferralID: referralID,
+				Elite: elite,
+				Referrals: 0,
         },
 		})
 	if err != nil {
@@ -229,13 +241,19 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			return
 		}
 		stored_password = userData.Password
-		fmt.Println(stored_password)
+		// fmt.Println(stored_password)
 
 		err := checkPasswordHash(password,stored_password)
 		if err!= nil {
 			fmt.Println("Wrong password: ", err)	
 			// c.String(http.StatusBadRequest, "<div id=\"notif\" class=\"notif\" hx-swap-oob=\"true\">Wrong Password!!</div>")
 			c.String(http.StatusBadRequest,"Wrong Password!!")
+			return
+		}
+
+		verified:=userData.Verified
+		if !verified{
+			c.HTML(http.StatusOK,"notverified.html","hello")
 			return
 		}
 		
@@ -245,9 +263,11 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			c.String(http.StatusInternalServerError,"Couldn't generate token. Please try again")
 			return
 		}
+
 		c.Header("Hx-Redirect","/auth/dashboard")
 		c.Header("Hx-Push-Url","/auth/dashboard")
-		c.HTML(http.StatusOK,"dashboard.html","hello")
+		c.HTML(http.StatusBadRequest,"dashboard.html","not verified")
+		
 	}
 }
 

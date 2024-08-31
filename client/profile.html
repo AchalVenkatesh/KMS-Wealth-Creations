@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>News</title>
+    <title>Dashboard</title>
       <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
@@ -46,6 +46,7 @@ footer {
   text-align: center;
   margin-top: 2.5rem;
 }
+
     .navbar {
       display: flex;
       justify-content: space-between;
@@ -55,6 +56,7 @@ footer {
     }
 
    .logo {
+      padding: 20px;
       max-width: 128px;
       border-radius: 50%;
       align-self: left;
@@ -222,9 +224,6 @@ h1 {
     padding-bottom: 1rem;
     text-align: left;
 }
-div {
-    white-space: pre-wrap;
-}
 
 .company-info h1{
     margin-bottom: 0;
@@ -316,7 +315,7 @@ div {
 </style>
 </head>
 <body>
-  <header>
+    <header>
     <nav class="navbar">
       <img src="/images/logo-copy.png" alt="Arohana Trading Academy Logo" class="logo">
       <div class="company-info">
@@ -368,18 +367,28 @@ div {
       </div>
     </nav>
   </header>
-    <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/getNews" hx-trigger="load" hx-target="#news-container">
-    <h2>News</h2>
-    <div id="news-container" class="container">
-      Loading News...
+  <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/posts" hx-trigger="load" hx-target="#container" hx-on:htmx:after-request="calculateGrowth(this)">
+    <h2>Profile</h2>
+    <div id="container" class="container">
+      Loading Posts...
     </div>
     </section>
-      <footer>
+  <footer>
     <style>
       /* .contact-us{
         text-align: left;
       } */
     </style>
+              <div class="contact-us">
+            <a href="/privacy">Privacy policy</a>
+            <p>Contact Us</p>
+            <p>Email: <a href="mailto:info@arohanatradingacademy.org">info@arohanatradingacademy.org</a></p>
+            <p>Phone: +91 8310383448</p>
+              <div class="social-media">
+                <a href="https://www.instagram.com/kmswealthcreations?igsh=MWRzc2R0a3hsbGYzaQ==">Instagram</a> | 
+                <a href="https://x.com/kmswcs">Twitter</a> 
+            </div>
+          </div>
     <p>&copy; 2024 Arohana Trading Academy. All rights reserved.</p>
   </footer>
 </body>

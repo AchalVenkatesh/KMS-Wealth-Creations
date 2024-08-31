@@ -13,6 +13,9 @@ type Users struct{
 	PhoneNumber string `form: "phoneNumber"`
 	TransactionID string `form: "transactionID"`
 	Verified bool
+	ReferralID string
+	Elite bool
+	Referrals int
 }
 
 type Admin struct{

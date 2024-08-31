@@ -314,7 +314,7 @@ h1 {
 </style>
 </head>
 <body>
-    <header>
+  <header>
     <nav class="navbar">
       <img src="/images/logo-copy.png" alt="Arohana Trading Academy Logo" class="logo">
       <div class="company-info">
@@ -328,39 +328,40 @@ h1 {
         <div></div>
       </div>
       <ul class="nav-links">
-                <li><a href="/auth/dashboard">Stock Recommendations</a></li>
+        <li><a href="/auth/dashboard">Stock Recommendations</a></li>
         <li><a href="/auth/news">News</a></li>
+        <li><a href="/auth/profile">Profile Details</a></li>
         <!-- <li><a href="services.html">Events</a></li> -->
         <li><a href="/auth/pastPosts">Past recommendations</a></li>
+        <!-- <button class="btn-login">Logout</button> -->
       </ul>
       <div class="btn">
       
-        <button type="submit" class="btn-login" onclick="deleteAllCookies()"><a href="/auth/logout">Logout</a></button>
-        <script>        
-        function deleteAllCookies() {
-            const cookies = document.cookie.split("; ");
-            for (let c = 0; c < cookies.length; c++) {
-                const d = window.location.hostname.split(".");
-                while (d.length > 0) {
-                    const cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) +
-                          '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
-                    const p = window.location.pathname.split('/');
-                    document.cookie = cookieBase + '/';
-                    while (p.length > 0) {
-                        document.cookie = cookieBase + p.join('/');
-                        p.pop();
-                    };
-                    d.shift();
-                }
+        <button type="submit" class="btn-login" onclick="const cookies = document.cookie.split(';');
+        for (let c = 0; c < cookies.length; c++) {
+            const d = window.location.hostname.split('.');
+            while (d.length > 0) {
+                const cookieBase = encodeURIComponent(cookies[c].split(';')[0].split('=')[0]) +
+                      '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+                const p = window.location.pathname.split('/');
+                document.cookie = cookieBase + '/';
+                while (p.length > 0) {
+                    document.cookie = cookieBase + p.join('/');
+                    p.pop();
+                };
+                d.shift();
             }
-        }
+        }"><a href="/auth/logout" >Logout</a></button>
+        <script>        
         </script>
       </div>
       <div class="nav-links-mobile">
                 <li><a href="/auth/dashboard">Stock Recommendations</a></li>
         <li><a href="/auth/news">News</a></li>
+        <li><a href="/auth/profile">Profile Details</a></li>
         <!-- <li><a href="services.html">Events</a></li> -->
         <li><a href="/auth/pastPosts">Past recommendations</a></li>
+        <!-- <button class="btn-login">Logout</button> -->
         <!-- <button class="btn-login">Logout</button> -->
       </div>
     </nav>

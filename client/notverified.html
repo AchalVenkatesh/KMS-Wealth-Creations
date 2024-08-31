@@ -128,36 +128,10 @@
 <body>
     <div  class="container">
         <img src="/images/KMS1.jpg" alt="KMS Logo">
-        <h2>Sign Up</h2>
-        <form id="container" hx-post="/signup" hx-swap="#container">
-            <input type="text" id="name" name="name" placeholder="Name" required>
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <input type="text" id="email" name="Email" placeholder="Email" required>
-            <input type="text" id="phoneNumber" name="Phone Number" placeholder="Phone Number" required>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <input type="password" id="cpassword" name="confirm_password" placeholder="Confirm Password" required>
-            <label for="cars">Choose a course:</label>
-
-            <select name="course" id="course">
-            <option value="master">Master(Costs Rs.8999)</option>
-            <option value="elite">Elite(Costs Rs.19999)</option>
-            </select>
-            <h5>Note: Please note down the transaction ID after payment</h5>
-            <button id="payment" style="margin-bottom: 4%;" type="button" onclick=" if (document.getElementById('course').value=='master'){
-                                                                                    window.open('https://razorpay.me/@keshavamoorthychandrashekar?amount=eoidudiYWukvp3zYAjBWiQ%3D%3D')
-                                                                                }else{
-                                                                                        window.open('https://razorpay.me/@keshavamoorthychandrashekar?amount=eoidudiYWukvp3zYAjBWiQ%3D%3D')};
-                                                                                    document.getElementById('payment').innerHTML='Payment Processing. Please proceed with the rest of the form';">Proceed to pay    </button>
-            <input type="text" id="transactionID" name="transactionID" placeholder="Transaction ID" required>
-            <h5>Also fill the following form for record purposes</h5>
-            <button style="margin-bottom: 4%;" onclick="click()">Form</a>
-            <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="/login">Login</a></p>
+        <h2>You aren't verified yet!!</h2>
+        <h4>Hey there!!</h4>
+        <h4>It seems like you aren't verified yet. Please wait until the admin verifies your account.</h4>
+        <h4>Sorry for the inconvinience!</h4>
     </div>
-    <script>function click(){
-        window.open('https://razorpay.me/@keshavamoorthychandrashekar?amount=eoidudiYWukvp3zYAjBWiQ%3D%3D'); 
-        document.getElementById('payment').innerHTML='Payment Processing. Please proceed with the next step';
-        }</script>
 </body>
 </html>
