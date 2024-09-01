@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"reflect"
 
 	// "os"
 	"strings"
@@ -175,6 +176,7 @@ func setUpDB(ctx context.Context) (*db.Client, error){
 func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 	return func(c *gin.Context){
 		log.Println("Hello from registerUser")
+		var referalStruct Referrals
 		elite:=false
 		//getting data from post request form
 		name:=c.PostForm("name")
@@ -186,44 +188,91 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 		phone_number:=c.PostForm("Phone Number")
 		transactionID:=c.PostForm("Transaction ID")
 		course:=c.PostForm("course")
+		referal:=c.PostForm("Referal Code")
+		
+
 		referralID:=fmt.Sprintf("%c%c%c%c",username[0],username[1],username[2],username[3])
 		referralID=strings.ToUpper(referralID)
 		referralID = referralID + utils.RandString(4)
-		
+		ref := client.NewRef("server/saving-data/fireblog")
+		usersRef := ref.Child("referals")
+		err := usersRef.Set(ctx, map[string]*Referrals{
+			referralID:{
+				Username: username,
+				ReferralID: referralID,
+				TotalReferrals: 0,
+			},
+		})
+		if err!=nil{
+			log.Println("Error creating referal Data: ",err)
+		}
+		// var userReferals int
+		// var referalNumber int
+		// userRef:=ref.Child(fmt.Sprintf("users/%s/Referrals",username))
+		reference := "server/saving-data/fireblog/referals/"+referal
+		fmt.Println(reference)
+		// referalRef:=client.NewRef(fmt.Sprintf("server/saving-data/fireblog/referals/%s",referal))
+		referalRef:=client.NewRef(reference)
+		fmt.Println(referal)
+		fmt.Println(reflect.TypeOf(referal))
+
+
+		if err := referalRef.Get(ctx, &referalStruct); err != nil {
+			log.Fatalln("Transaction failed to commit:", err)
+		}
+		refRef:=ref.Child("referals").Child(referal)
+		if err := refRef.Update(ctx, map[string]interface{}{
+			"ReferralID":referalStruct.ReferralID,
+			"TotalReferrals": referalStruct.TotalReferrals+1,
+			"Username":referalStruct.Username,
+		}); err != nil {
+			log.Fatalln("Transaction failed to commit:", err)
+		}
+		fmt.Println(referalStruct)
+		useRef:=ref.Child("users").Child(referalStruct.Username)
+		if err := useRef.Update(ctx, map[string]interface{}{
+			"Referrals": referalStruct.TotalReferrals+1,
+		}); err != nil {
+			log.Fatalln("Transaction failed to commit:", err)
+		}
+
 		if course =="elite"{
 			elite = true
 		}
 
-		fmt.Println(course)
+		// fmt.Println(course)
 		//hashing the password
-		password, err := hashPassword(password)
+		password, err = hashPassword(password)
 		if err!=nil{
 			log.Println("Error hashing the password: ",err)
 			c.String(http.StatusInternalServerError, "Error hashing the password")
 		}
+
 		//saving the data in the firebase db
-		ref := client.NewRef("server/saving-data/fireblog")
-		usersRef := ref.Child("users")
-		err = usersRef.Set(ctx, map[string]*Users{
-        username: {
-				Name: name,
-                Username: username,
-				Email: Email,
-				Password: password,
-				PhoneNumber: phone_number,
-				TransactionID: transactionID,
-				Verified: false,
+		usersRef = ref.Child("users")
+		newUser:=Users{
+			Name: name,
+			Username: username,
+			Email: Email,
+			Password: password,
+			PhoneNumber: phone_number,
+			TransactionID: transactionID,
+			Verified: false,
+			Referrals:Referrals{
 				ReferralID: referralID,
-				Elite: elite,
-				Referrals: 0,
-        },
+				TotalReferrals: 0,
+			},
+			Elite: elite,
+	}
+		err = usersRef.Update(ctx, map[string]interface{}{
+        username: newUser,
 		})
 	if err != nil {
         log.Fatalln("Error setting value:", err)
 		c.String(http.StatusInternalServerError,"Internal Server Error")
 	}
 	c.String(http.StatusOK,"<h1>Successfully registered!<h1>")
-}
+	}
 }
 
 func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
