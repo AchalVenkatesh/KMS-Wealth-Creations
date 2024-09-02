@@ -10,8 +10,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"reflect"
-
 	// "os"
 	"strings"
 	// "text/template"
@@ -195,47 +193,66 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 		referralID=strings.ToUpper(referralID)
 		referralID = referralID + utils.RandString(4)
 		ref := client.NewRef("server/saving-data/fireblog")
-		usersRef := ref.Child("referals")
-		err := usersRef.Set(ctx, map[string]*Referrals{
-			referralID:{
-				Username: username,
-				ReferralID: referralID,
-				TotalReferrals: 0,
-			},
-		})
-		if err!=nil{
-			log.Println("Error creating referal Data: ",err)
+    
+		fn := func(tn db.TransactionNode) (interface{}, error) {
+			var referrals map[string]*Referrals
+			if err := tn.Unmarshal(&referrals); err != nil {
+				return nil, err
+			}
+		
+			if referrals == nil {
+				referrals = make(map[string]*Referrals)
+			}
+		
+			// Check if the referral already exists
+			if _, exists := referrals[referralID]; !exists {
+				// If it doesn't exist, create a new one
+				referrals[referralID] = &Referrals{
+					Username:       username,
+					TotalReferrals: 0,
+				}
+			} else {
+				// If it exists, you might want to handle this case
+				// For now, we'll just log it and not change anything
+				log.Printf("Referral ID %s already exists", referralID)
+			}
+		
+			return referrals, nil
 		}
-		// var userReferals int
-		// var referalNumber int
-		// userRef:=ref.Child(fmt.Sprintf("users/%s/Referrals",username))
+		
+		err := ref.Child("referals").Transaction(ctx, fn)
+		if err != nil {
+			log.Println("Error creating referral Data: ", err)
+		}
 		reference := "server/saving-data/fireblog/referals/"+referal
-		fmt.Println(reference)
-		// referalRef:=client.NewRef(fmt.Sprintf("server/saving-data/fireblog/referals/%s",referal))
+		// fmt.Println(reference)
 		referalRef:=client.NewRef(reference)
-		fmt.Println(referal)
-		fmt.Println(reflect.TypeOf(referal))
+		// fmt.Println(referal)
+		// fmt.Println(reflect.TypeOf(referal))
 
 
 		if err := referalRef.Get(ctx, &referalStruct); err != nil {
 			log.Fatalln("Transaction failed to commit:", err)
 		}
-		refRef:=ref.Child("referals").Child(referal)
-		if err := refRef.Update(ctx, map[string]interface{}{
-			"ReferralID":referalStruct.ReferralID,
-			"TotalReferrals": referalStruct.TotalReferrals+1,
-			"Username":referalStruct.Username,
-		}); err != nil {
-			log.Fatalln("Transaction failed to commit:", err)
-		}
-		fmt.Println(referalStruct)
-		useRef:=ref.Child("users").Child(referalStruct.Username)
-		if err := useRef.Update(ctx, map[string]interface{}{
-			"Referrals": referalStruct.TotalReferrals+1,
-		}); err != nil {
-			log.Fatalln("Transaction failed to commit:", err)
-		}
 
+
+		if referal!=""{
+			refRef:="referals/"+referal+"/TotalReferrals"
+			ref2:="users/"+referalStruct.Username+"/TotalReferrals"
+			if err := ref.Update(ctx, map[string]interface{}{
+				refRef: referalStruct.TotalReferrals+1,
+				ref2:  referalStruct.TotalReferrals + 1,
+			}); err != nil {
+				log.Fatalln("Transaction failed to commit:", err)
+			}
+			fmt.Println(referalStruct)
+			useRef:=ref.Child("users").Child(referalStruct.Username)
+			if err := useRef.Update(ctx, map[string]interface{}{
+				"Referrals": referalStruct.TotalReferrals+1,
+			}); err != nil {
+				log.Fatalln("Transaction failed to commit:", err)
+			}
+		}
 		if course =="elite"{
 			elite = true
 		}
@@ -247,9 +264,8 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 			log.Println("Error hashing the password: ",err)
 			c.String(http.StatusInternalServerError, "Error hashing the password")
 		}
-
 		//saving the data in the firebase db
-		usersRef = ref.Child("users")
+		usersRef := ref.Child("users")
 		newUser:=Users{
 			Name: name,
 			Username: username,
@@ -258,10 +274,8 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 			PhoneNumber: phone_number,
 			TransactionID: transactionID,
 			Verified: false,
-			Referrals:Referrals{
-				ReferralID: referralID,
-				TotalReferrals: 0,
-			},
+			TotalReferrals:0,
+			ReferralID: referralID,
 			Elite: elite,
 	}
 		err = usersRef.Update(ctx, map[string]interface{}{
@@ -274,6 +288,7 @@ func registerUser(ctx context.Context, client *db.Client) gin.HandlerFunc{
 	c.String(http.StatusOK,"<h1>Successfully registered!<h1>")
 	}
 }
+
 
 func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 	return func(c *gin.Context){

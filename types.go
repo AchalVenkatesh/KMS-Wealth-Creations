@@ -12,15 +12,16 @@ type Users struct{
 	Password string `form: "password"`
 	PhoneNumber string `form: "phoneNumber"`
 	TransactionID string `form: "transactionID"`
-	Referrals Referrals
+	TotalReferrals int
+	ReferralID string
 	Verified bool
 	Elite bool
 }
 
 type Referrals struct{
-	Username string `json:"Username"`
-	ReferralID string `json:"ReferralID"`
-	TotalReferrals int `json: "TotalReferrals"`
+	Username string `json:"Username,omitempty"`
+	ReferralID string `json:"ReferralID,omitempty"`
+	TotalReferrals int `json:"TotalReferrals"`
 }
 
 type Admin struct{
