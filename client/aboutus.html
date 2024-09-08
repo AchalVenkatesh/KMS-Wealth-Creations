@@ -1,0 +1,538 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff5d7;
+      color: #333;
+    }
+
+    header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    section {
+    display: block;
+    unicode-bidi: isolate;
+}
+footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1.25rem;
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0;
+    }
+
+   .logo {
+      max-width: 128px;
+      border-radius: 50%;
+      align-self: left;
+      margin-top: 0;
+      max-height: 128px;
+    }
+
+    .navbar .nav-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    .navbar .nav-links li {
+      margin-right: 1.25rem;
+    }
+
+    .navbar .nav-links li:last-child {
+      margin-right: 0;
+    }
+
+    .navbar .nav-links a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 0.875rem 1rem;
+    }
+
+    .navbar .nav-links a:hover {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .navbar .btn-signup,
+    .navbar .btn-login {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.625rem 1rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: 0.625rem;
+    }
+
+    .navbar .btn:hover {
+      background-color: #45a049;
+    }
+
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger-menu div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .nav-links-mobile {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      background-color: #343a40;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+
+    .nav-links-mobile a {
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      border-top: 1px solid #444;
+    }
+
+#menu-toggle:checked ~ .nav-links-mobile {
+  display: flex;
+  list-style: none;
+  height: auto;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a{
+    color: #f2f2f2;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a:hover{
+  background-color: #ddd;
+  color: #333;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile li{
+   margin: 1.25rem;
+}
+
+    .about-us {
+    margin-bottom: 2.5rem;
+    background-color: #f8f9fa;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 90vw;
+      margin: 2.5rem auto;
+    }
+
+    .about-us h1{
+        font-size: 4.5rem;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        text-align: left;
+    }
+    .about-us h2{
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .about-us {
+    margin-bottom: 2.5rem;
+    background-color: #f8f9fa;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 90vw;
+    margin: 2.5rem auto;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.about-content .text {
+    flex: 1;
+    margin-left: 1.875rem; /* Adjust the spacing between text and image */
+}
+
+.about-content .image img{
+    flex-shrink: 0;
+     width: 300px;
+    height: auto;
+    max-width: 100%;
+}
+
+.about-us h2 {
+    margin-top: 0;
+    text-align: left;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.625rem;
+}
+     p{
+        line-height: 2;
+     }
+
+     .company-info {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    text-align: left;
+}
+
+.company-info h1{
+    margin-bottom: 0;
+}
+.company-info p{
+  margin-left: 0;
+}
+
+    @keyframes slideInFromLeft {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+       .navbar .nav-links, .btn {
+        display: none;
+      }
+
+
+      /* .navbar {
+        flex-direction: column;
+        align-items: center;
+    } */
+
+     .hamburger-menu {
+    display: flex;
+    order: 3;
+    padding-left: 1rem;
+}
+.company-info {
+    order: 2;
+    padding-bottom: 1rem;
+    text-align: left;
+    flex-grow: 1;
+}
+.company-info h1{
+  text-align: left;
+}
+
+.company-info p{
+  display: none;
+}
+.logo {
+    order: 1;
+    max-width: 4rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 1rem;
+}
+
+.about-content {
+    flex-direction: column;
+}
+
+.about-content .image {
+    order: -1;
+    margin-bottom: 1rem;
+}
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.625rem;
+      }
+
+      .navbar .nav-links li {
+        margin-right: 0.625rem;
+      }
+
+      .navbar .btn-login,
+      .navbar .btn-signup {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.875rem;
+      }
+
+      .company-info h1{
+        text-align: center;
+      }
+      .company-info p{
+        text-align: center;
+      }
+    }
+</style>
+</head>
+<body>
+    <header>
+    <nav class="navbar">
+      <img src="/images/logo-copy.png" alt="Arohana Trading Academy Logo" class="logo">
+      <div class="company-info">
+                <h1>Arohana Trading Academy</h1>
+                <p class="slogan" style="margin-left: 10px;">Build wealth with little intelligence and a lot of commonsense.</p>
+            </div>
+      <input type="checkbox" id="menu-toggle">
+      <div class="hamburger-menu" onclick="document.getElementById('menu-toggle').checked = !document.getElementById('menu-toggle').checked;">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="btn">
+        <button class="btn-signup" onclick="window.location.href ='/login'">Login</button>
+        <button class="btn-signup" onclick="window.location.href = '/signup'; ">Sign Up</button>
+      </div>
+      <div class="nav-links-mobile">
+        <li><a href="">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/contact">Contact</a></li>
+        <button class="btn-signup" onclick="window.location.href ='/login'">Login</button>
+        <button class="btn-signup" onclick="window.location.href = '/signup'">Sign Up</button>
+      </div>
+    </nav>
+  </header>
+  <section id="contact" class="about-us">
+    <div style="display: flex; align-items: center; flex-wrap: wrap;"></div>
+    <h1>About us</h1>
+    <h2>Build Your Wealth
+with Arohana Trading Academy!!</h2>
+    <div class="landscape-container">
+      <style>
+        .landscape-container {
+            margin: 20px 0; /* Margin for separation from the gallery */
+            text-align: center; /* Center align for the landscape image */
+        }
+
+        .landscape-container img {
+            width: 100%;
+            height: auto;
+            max-width: 1000px; /* Maximum width for the landscape image */
+            border-radius: 10px; /* Rounded corners for the image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for the image */
+        }
+      </style>
+        <a href="/images/landscape.jpeg" data-lightbox="landscape" data-title="Landscape Photo">
+            <img src="/images/landscape.jpeg" alt="Landscape Photo">
+
+        </a>
+    </div>
+    <p >At Arohana Trading Academy, we empower individuals with financial knowledge and strategies for lasting freedom. Our experienced team provides insights on budgeting, investing, retirement planning, and debt management. Join us to take control of your financial destiny!</p>
+    <ul>
+    <li><b>Expert-Led Training:</b>
+        <p>Our seminars are led by industry experts with extensive experience in trading and investing.</p>
+    </li>
+    <li><b>Comprehensive Curriculum: </b>
+        <p>The curriculum covers a wide range of topics, including stock market analysis, portfolio management, risk assessment, and investment strategies.</p>
+    </li>
+    <li><b>Hands-On Learning:</b>
+        <p>Participants engage in practical exercises and real-time trading simulations to apply theoretical knowledge effectively.</p>
+    </li>
+    <li><b>Personalized Guidance:</b>
+        <p>We provide one-on-one mentorship and personalized feedback to help participants refine their trading and investing techniques.</p>
+    </li>
+    <li><b>Networking Opportunities:</b>
+        <p>Our seminars facilitate networking with like-minded professionals, creating opportunities for collaboration and knowledge sharing.</p>
+    </li>
+    <li><b>Success Stories:</b>
+        <p>Many attendees have transitioned from novices to proficient traders and investors, significantly enhancing their financial portfolios.</p>
+    </li>
+    <li><b>Continuous Support:</b>
+        <p>Post-seminar support through webinars, newsletters, and a dedicated online community helps participants stay updated and continuously improve their skills.</p>
+    </li>
+    <li><b>Local Impact:</b>
+        <p>By empowering local professionals with financial literacy and investment skills, we contribute to the economic growth of the Puttur and Mangalore regions.</p>
+    </li>
+    <li><b>Feedback and Improvement:</b>
+        <p>We continuously gather feedback to refine our seminars, ensuring they remain relevant and impactful for our attendees.</p>
+    </li>
+    <li><strong>Positive Testimonials:</strong>
+        <p>Our participants consistently provide positive testimonials, highlighting the practical benefits and financial gains they have experienced after attending our seminars.</p>
+    </li>
+</ul>
+
+</div>  
+
+    </section>
+
+  <section class="about-us">
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; /* Adjust the space between images */
+            padding: 20px;
+            /* Background color for the gallery */
+            border-radius: 10px; /* Rounded corners for the gallery */
+        }
+
+        .special-h2 {
+          font-size: 3rem;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px; /* Rounded corners for the images */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for the images */
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1); /* Zoom effect on hover */
+        }
+
+        @media (max-width: 600px) {
+            .gallery {
+                grid-template-columns: 1fr; /* Single column layout on small screens */
+            }
+        }
+    </style>
+     <h2 class="special-h2">Gallery</h2>
+    <div class="gallery">
+        <a href="/images/photo1.jpeg" data-lightbox="gallery" data-title="Photo 1">
+            <div class="gallery-item">
+                <img src="/images/photo1.jpeg" alt="Photo 1">
+            </div>
+        </a>
+        <a href="/images/photo2.jpeg" data-lightbox="gallery" data-title="Photo 2">
+            <div class="gallery-item">
+                <img src="/images/photo2.jpeg" alt="Photo 2">
+            </div>
+        </a>
+        <a href="/images/photo3.jpeg" data-lightbox="gallery" data-title="Photo 3">
+            <div class="gallery-item">
+                <img src="/images/photo3.jpeg" alt="Photo 3">
+            </div>
+        </a>
+        <a href="/images/photo4.jpeg" data-lightbox="gallery" data-title="Photo 4">
+            <div class="gallery-item">
+                <img src="/images/photo4.jpeg" alt="Photo 4">
+            </div>
+        </a>
+    </div>
+</section>
+
+<section class="about-us">
+  
+    <h2 class="special-h2">About the speaker
+    </h2>
+    <div class="about-content">
+        <div class="text">
+          <style>
+            .text li{
+              padding-bottom: 10px;
+              padding-left: 10px ;
+              line-height: 32px;
+            }
+          </style>
+          
+                        <li>Keshav comes from 18+ years of IT and financial services background.</li>
+                        <li>He has 12 years experience in trading in equities, derivatives, and Forex.</li>
+                        <li>He pursued engineering and MS in software from Mangalore and Manipal Universities respectively.</li>
+                        <li>Worked with companies like UBS, MARSH, LLOYDS Banking Group</li> 
+                          <li>Mainly involved in working on trading systems and platforms, and has been working with top traders.</li>
+                        <li>He has also been trained as a trader from Traders University UK (now called Learn to Trade).</li>
+                        <li>He has extensive knowledge about the markets and crypto and has trained more than 1000 people in the last 5 years.</li>
+                        <li>He has expertise in running enterprises and successfully launching many bio-fuel projects.</li>
+                        <li>He is ambitious about developing a greener environment, organic products, and generating employment.</li>
+                  
+        </div>
+        <div class="image">
+            <img src="/images/presenter.jpg" alt="Keshav Chandra Bhat">
+        </div>
+    </div>
+</section>
+  <footer>
+    <style>
+      /* .contact-us{
+        text-align: left;
+      } */
+    </style>
+          <div class="contact-us">
+            <a href="/privacy">Privacy policy</a>
+            <p>Contact Us</p>
+            <p>Email: <a href="mailto:info@arohanatradingacademy.org">info@arohanatradingacademy.org</a></p>
+            <p>Phone: +91 8310383448</p>
+              <div class="social-media">
+                <a href="https://www.instagram.com/kmswealthcreations?igsh=MWRzc2R0a3hsbGYzaQ==">Instagram</a> | 
+                <a href="https://x.com/kmswcs">Twitter</a> 
+            </div>
+          </div>
+    <p>&copy; 2024 Arohana Trading Academy. All rights reserved.</p>
+  </footer>
+</body>
+</html>

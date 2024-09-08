@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arohana Trading Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff5d7;
+  color: #333;
+}
+
+header {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+section {
+  display: block;
+  unicode-bidi: isolate;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar .logo {
+  max-width:10rem;
+  border-radius: 50%;
+}
+
+
+.navbar .nav-content {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .nav-links{
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .nav-links li{
+  margin-right: 1.25rem;
+}
+
+.navbar .nav-links li:last-child {
+  margin-right: 0;
+}
+
+.navbar .nav-links a {
+  color: #f2f2f2;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+}
+
+.navbar .nav-links a:hover {
+  background-color: #ddd;
+  color: #333;
+}
+
+.navbar .btn-signup,
+.navbar .btn-login {
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.625rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 0.625rem;
+}
+
+.navbar .btn:hover {
+  background-color: #45a049;
+}
+
+.hamburger-menu {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger-menu div {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.nav-links-mobile {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #343a40;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile {
+  display: flex;
+  list-style: none;
+  height: auto;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a{
+    color: #f2f2f2;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a:hover{
+  background-color: #ddd;
+  color: #333;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile li{
+   margin: 1.25rem;
+}
+/* 
+#menu-toggle:checked ~ .nav-links-mobile li:last-child{
+    margin: 0;
+} */
+
+
+.hero {
+  background-color: #ff5e6c;
+  color: #fff;
+  padding: 5vh 1.25rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+}
+
+.get-started-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 0.9375rem 1.875rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 0.3125rem;
+  margin-top: 1.25rem;
+  transition: background-color 0.3s;
+}
+
+.get-started-btn:hover {
+  background-color: #0056b3;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.625rem;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.testimonial {
+  background-color: #fff;
+  padding: 1.875rem;
+  border-radius: 0.625rem;
+  margin-top: 1.875rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+  font-style: italic;
+  color: #6e7a8a;
+}
+
+.section {
+
+ margin-bottom: 2.5rem;
+    /* background-color: #f8f9fa; */
+    /* padding: 1.875rem; */
+    border-radius: 0.625rem;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+        max-width: 90vw;
+}
+
+.section h2 {
+  margin-bottom: 1.25rem;
+  color: #343a40;
+  text-align: center;
+}
+
+.section p {
+  line-height: 2;
+}
+
+.images-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.section img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1.25rem;
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.wealth-secrets {
+  text-align: center;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.container {
+  max-width: 75vw;
+  margin: 0 auto;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
+  gap: 1.25rem;
+}
+
+.features button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.625rem 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 0.3125rem;
+  border: none;
+  margin-top: 1.25rem;
+  transition: background-color 0.3s;
+}
+
+.features button:hover {
+  background-color: #0056b3;
+}
+
+.features {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.feature {
+  background-color: #feb300;
+  padding: 1.25rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 1 1 18.75rem;
+}
+
+.feature h3 {
+  margin-bottom: 0.625rem;
+}
+
+.webinar:focus-within {
+  animation: slideInFromLeft 1s ease-in-out;
+}
+
+.webinar {
+  background-color: #1c05b3;
+}
+
+.section .h2-text {
+  display: block;
+  unicode-bidi: isolate;
+}
+
+.testimonial-videos {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.testimonial-video {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+.testimonial-video iframe {
+    width: 100%;
+    height: 315px;
+}
+
+.webinar-banner {
+  background: linear-gradient(45deg, #4d0475, #1c05b3, #370494, #5c00de);
+  background-size: 600% 600%;
+  border: 2px solid #ff9900;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  animation: gradientBackground 10s ease infinite, pulse 2s infinite;
+}
+
+.webinar-banner h2 {
+  margin: 0;
+  font-size: 2em;
+  color: #fff;
+}
+
+.webinar-banner p {
+  font-size: 1.2em;
+  color: #eee;
+}
+
+.register-button {
+  background-color: #ff6600;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.register-button:hover {
+  background-color: #e65c00;
+}
+
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 0.625rem;
+  }
+
+   .navbar .nav-links, .btn {
+        display: none;
+      }
+
+     .hamburger-menu {
+    display: flex;
+    order: 3;
+    padding-left: 1rem;
+}
+.company-info {
+    order: 2;
+    padding-bottom: 1rem;
+    text-align: left;
+    flex-grow: 1;
+}
+.company-info h1{
+  text-align: center;
+}
+
+.company-info p{
+  display: none;
+}
+.logo {
+    order: 1;
+    max-width: 4rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 1rem;
+}
+
+  .hero {
+    padding: 5vh 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .get-started-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .section {
+    text-align: center;
+  }
+
+  .navbar .nav-links,
+  .navbar .btn {
+    display: none;
+  }
+
+  .logo{
+    margin-left: 0;
+  }
+
+  .hamburger-menu {
+    display: flex;
+  }
+
+
+  .testimonial,
+  .testimonial-videos {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    align-items: flex-start; /* Align items to the start for consistency */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+    padding: 0; /* Remove internal padding to avoid extra space */
+    margin-bottom: 20px; /* Add margin between sections */
+  } 
+
+  /* .testimonial iframe {
+    width: 50vw;
+    height: auto;
+  } */
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 0.625rem;
+  }
+
+  .navbar .nav-links li {
+    margin-right: 0.625rem;
+  }
+
+  .navbar .btn-login,
+  .navbar .btn-signup {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+  }
+  .logo{
+    margin-left: 0;
+  }
+
+  .hero {
+    padding: 5vh 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .get-started-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .section {
+    text-align: center;
+  }
+
+  .testimonials {
+    background-color: white;
+    color: #333;
+}
+
+  .testimonial-videos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start for consistency */
+    width: 10vw; /* Ensure these containers take full width */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
+    padding: 0; /* Remove internal padding to avoid extra space */
+    margin-bottom: 20px; /* Add margin between sections */
+  }
+
+  .testimonial-video {
+    flex: 1;
+    min-width: 300px;
+    text-align: center;
+}
+
+  .testimonial-video iframe {
+    width: 100%;
+    height: auto;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <img src="/images/logo-copy.png"  style="margin-left: 20px;"  alt="Arohana Trading Academy Logo" class="logo">
+      <div class="company-info">
+                <h1>Arohana Trading Academy</h1>
+                <p class="slogan">Build wealth with little intelligence and a lot of commonsense.</p>
+            </div>
+      <input type="checkbox" id="menu-toggle">
+      <div class="hamburger-menu" onclick="document.getElementById('menu-toggle').checked = !document.getElementById('menu-toggle').checked;">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="btn">
+        <button class="btn-signup" onclick="window.location.href = '/login'; ">Login</button>
+        <button class="btn-signup" onclick="window.location.href = '/signup'; ">Sign Up</button>
+      </div>
+      <div class="nav-links-mobile">
+        <!-- <ul class="nav-links"> -->
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/contact">Contact</a></li>
+        <button class="btn-signup" onclick="window.location.href = '/login';">Login</button>
+        <button class="btn-signup" onclick="window.location.href = '/signup'; ">Sign Up</button>
+        <!-- </ul> -->
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Build Your Wealth <br> with Arohana Trading Academy</h1>
+    <p>Unlock the secrets of financial success through our proven trading strategies.</p>
+  </div>
+
+  <div class="webinar-banner">
+        <h2>Join Our Exclusive Webinar!</h2>
+        <p>Learn the latest industry trends and insights. Don't miss out!</p>
+        <button class="register-button">Register Now</button>
+    </div>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+    const registerButton = document.querySelector('.register-button');
+    
+    registerButton.addEventListener('click', () => {
+        // You can also redirect to the registration page here
+        // window.location.href = 'your-registration-page-url';
+        window.location.href='/register'
+    });
+});</script>
+
+<!-- TradingView Widget BEGIN -->
+<iframe src="/tradingview" width="100%" height="600" allowfullscreen></iframe>
+<!-- TradingView Widget END -->
+
+
+  <div class="container">
+    <div class="features">
+      <div class="feature">
+        <h3>Wealth Secrets 101</h3>
+        <p>Build Your Wealth
+          in 36 Months using our "FinWin" Holygrail Success System.</p>
+        <button onclick="window.location.href='/register' ">Join the webinar now!</button>
+      </div>
+      <div class="feature">
+        <h3>Proven Strategies</h3>
+        <p>Learn from our UK Certified Trader with over 12 years of experience.</p>
+        <button onclick="window.location.href='/aboutus' ">Know more about the speaker</button>
+      </div>
+      <div class="feature">
+        <h3>Community Support</h3>
+        <p>Join our active traders community for ongoing support and networking.</p>
+        <button onclick="window.location.href='/contact'">Contact Us</button>
+      </div>
+    </div>
+
+
+    <section id="webinar" class="section">
+        <div class="container">
+            <h2>Testimonials</h2>
+            <div class="testimonial-videos">
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/MxwLwbII5EI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/L46WdOodeFU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="testimonial-video">
+                    <iframe src="https://www.youtube.com/embed/IZZXXUDyhlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-presenter" class="section">
+      <h2 style="text-align: left;">Mr. Keshava Moorthy Chandrashekhar</h2>
+      <div class="info-container">      
+      <div class="text"><p>
+        With over 18 years in IT and financial services, Keshav holds degrees from Mangalore and Manipal Universities. He has worked with UBS, MARSH, and LLOYDS, specializing in trading systems. A trained trader from Traders University UK, Keshav has educated 1000+ people and launched bio-fuel projects, aiming to promote sustainability and youth employment.
+      </p></div>
+      <div class="image" >
+        <style>
+          .info-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+
+          @media (min-width:769px){
+            .info-container{
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+          }
+           @media (max-width: 768px) {
+              .info-container
+              {
+                flex-direction: column;
+              }   
+              .image{
+                order: -1;
+                margin-bottom: 1rem;
+              }
+              .text p{
+                justify-content: left;
+              }
+           } 
+        </style>      
+      <img src="/images/presenter.jpg" alt="Keshav Chandra Bhat" style="flex-shrink: 0;width: 1200px;height: auto;max-width: 100%;">
+      <div> 
+    </section>
+  </div>
+
+  <footer>
+    <style>
+      /* .contact-us{
+        text-align: left;
+      } */
+    </style>
+          <div class="contact-us">
+            <a href="/privacy">Privacy policy</a>
+            <p>Contact Us</p>
+            <p>Email: <a href="mailto:info@arohanatradingacademy.org">info@arohanatradingacademy.org</a></p>
+            <p>Phone: +91 8310383448</p>
+              <div class="social-media">
+                <a href="https://www.instagram.com/kmswealthcreations?igsh=MWRzc2R0a3hsbGYzaQ==">Instagram</a> | 
+                <a href="https://x.com/kmswcs">Twitter</a> 
+            </div>
+          </div>
+    <p>&copy; 2024 Arohana Trading Academy. All rights reserved.</p>
+  </footer>
+</body>
+</html>

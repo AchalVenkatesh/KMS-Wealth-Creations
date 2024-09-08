@@ -1,0 +1,435 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff5d7;
+      color: #333;
+    }
+
+    header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    section {
+    display: block;
+    unicode-bidi: isolate;
+}
+footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1.25rem;
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+   .logo {
+      max-width: 8rem;
+      border-radius: 50%;
+      align-self: left;
+      margin-top: 0;
+      object-fit: contain;
+    }
+
+    .navbar .nav-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    .navbar .nav-links li {
+      margin-right: 1.25rem;
+    }
+
+    .navbar .nav-links li:last-child {
+      margin-right: 0;
+    }
+
+    .navbar .nav-links a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 0.875rem 1rem;
+    }
+
+    .navbar .nav-links a:hover {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .navbar .btn-signup,
+    .navbar .btn-login {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.625rem 1rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: 0.625rem;
+    }
+
+    .navbar .btn:hover {
+      background-color: #45a049;
+    }
+
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger-menu div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .nav-links-mobile {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      background-color: #343a40;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+
+    .nav-links-mobile a {
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      border-top: 1px solid #444;
+    }
+
+#menu-toggle:checked ~ .nav-links-mobile {
+  display: flex;
+  list-style: none;
+  height: auto;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a{
+    color: #f2f2f2;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.875rem 1rem;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile a:hover{
+  background-color: #ddd;
+  color: #333;
+}
+
+#menu-toggle:checked ~ .nav-links-mobile li{
+   margin: 1.25rem;
+}
+
+    .about-us {
+    margin-bottom: 2.5rem;
+    background-color: #f8f9fa;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 90vw;
+      margin: 2.5rem auto;
+    }
+
+    .about-us h1{
+        font-size: 4.5rem;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        text-align: left;
+    }
+    .about-us h2{
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .about-us {
+    margin-bottom: 2.5rem;
+    background-color: #f8f9fa;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 90vw;
+    margin: 2.5rem auto;
+}
+
+.about-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.about-content .text {
+    flex: 1;
+    margin-left: 1.875rem; /* Adjust the spacing between text and image */
+}
+
+.about-content .image img{
+    flex-shrink: 0;
+     width: 300px;
+    height: auto;
+    max-width: 100%;
+}
+
+.about-us h2 {
+    margin-top: 0;
+    text-align: left;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.625rem;
+}
+
+     p{
+        line-height: 2;
+     }
+
+     .company-info {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    text-align: left;
+}
+
+.company-info h1{
+    margin-bottom: 0;
+}
+.company-info p{
+  margin-left: 0;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-left: auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.75rem; /* Increased padding */
+    width: 50vw;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    font-family: inherit;
+    font-size: 1rem; /* Increased font size */
+}
+
+.contact-form textarea {
+    height: 150px;
+}
+
+.contact-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.625rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-size: 1rem;
+    align-self: flex-end; /* This will align the button to the right */
+}
+
+.contact-form button:hover {
+    background-color: #45a049;
+}
+
+    @keyframes slideInFromLeft {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+       .navbar .nav-links, .btn {
+        display: none;
+      }
+
+
+      /* .navbar {
+        flex-direction: column;
+        align-items: center;
+    } */
+
+     .hamburger-menu {
+    display: flex;
+    order: 3;
+    padding-left: 1rem;
+}
+.company-info {
+    order: 2;
+    padding-bottom: 1rem;
+    text-align: left;
+    flex-grow: 1;
+}
+.company-info h1{
+  text-align: left;
+}
+
+.company-info p{
+  display: none;
+}
+.logo {
+    order: 1;
+    max-width: 4rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 1rem;
+}
+
+.about-content {
+    flex-direction: column;
+}
+
+.about-content .image {
+    order: -1;
+    margin-bottom: 1rem;
+}
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.625rem;
+      }
+
+      .navbar .nav-links li {
+        margin-right: 0.625rem;
+      }
+
+      .navbar .btn-login,
+      .navbar .btn-signup {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.875rem;
+      }
+
+      .company-info h1{
+        text-align: center;
+      }
+      .company-info p{
+        text-align: center;
+      }
+    }
+</style>
+</head>
+<body>
+    <header>
+    <nav class="navbar">
+      <img src="/images/logo-copy.png" alt="Arohana Trading Academy Logo" class="logo">
+      <div class="company-info">
+                <h1>Arohana Trading Academy</h1>
+                <p class="slogan" style="margin-left: 10px;">Build wealth with little intelligence and a lot of commonsense.</p>
+            </div>
+      <input type="checkbox" id="menu-toggle">
+      <div class="hamburger-menu" onclick="document.getElementById('menu-toggle').checked = !document.getElementById('menu-toggle').checked;">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+      <div class="btn">
+        <button class="btn-signup" onclick="window.location.href ='/login'">Login</button>
+        <button class="btn-signup" onclick="window.location.href = '/signup'; ">Sign Up</button>
+      </div>
+            <div class="nav-links-mobile">
+        <!-- <ul class="nav-links"> -->
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <!-- <li><a href="services.html">Events</a></li> -->
+        <li><a href="/contact">Contact</a></li>
+        <button class="btn-signup" onclick="window.location.href ='/login'">Login</button>
+        <button class="btn-signup" onclick="window.location.href = '/signup'; ">Sign Up</button>
+        <!-- </ul> -->
+      </div>
+    </nav>
+  </header>
+<section class="about-us">
+  
+    <h1>Contact Us</h1>
+    <p>Get in touch with us for more information or inquiries.</p>
+    <div class="about-content">
+        <div class="image">
+    <form class="contact-form">
+        <input type="text" placeholder="Name" required>
+        <input type="email" placeholder="Email" required>
+        <textarea placeholder="Message" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+    </div>
+</section>
+  <footer>
+    <style>
+      /* .contact-us{
+        text-align: left;
+      } */
+    </style>
+          <div class="contact-us">
+            <a href="/privacy">Privacy policy</a>
+            <p>Contact Us</p>
+            <p>Email: <a href="mailto:info@arohanatradingacademy.org">info@arohanatradingacademy.org</a></p>
+            <p>Phone: +91 8310383448</p>
+              <div class="social-media">
+                <a href="https://www.instagram.com/kmswealthcreations?igsh=MWRzc2R0a3hsbGYzaQ==">Instagram</a> | 
+                <a href="https://x.com/kmswcs">Twitter</a> 
+            </div>
+          </div>
+    <p>&copy; 2024 Arohana Trading Academy. All rights reserved.</p>
+  </footer>
+</body>
+</html>

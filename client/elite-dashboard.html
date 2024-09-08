@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html id="body" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>Dashboard</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff5d7;
+      color: #333;
+    }
+
+    header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    section {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1.25rem;
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 0;
+    }
+
+   .logo {
+      padding: 20px;
+      max-width: 128px;
+      border-radius: 50%;
+      align-self: left;
+      margin-top: 0;
+      max-height: 128px;
+    }
+
+    .navbar .nav-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    .navbar .nav-links li {
+      margin-right: 1.25rem;
+    }
+
+    .navbar .nav-links li:last-child {
+      margin-right: 0;
+    }
+
+    .navbar .nav-links a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 0.875rem 1rem;
+    }
+
+    .navbar .nav-links a:hover {
+      background-color: #ddd;
+      color: #333;
+    }
+
+    .navbar .btn-signup,
+    .navbar .btn-login {
+      background-color: #4CAF50;
+      color: white;
+      padding: 0.625rem 1rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-left: 0.625rem;
+    }
+
+    .navbar .btn:hover {
+      background-color: #45a049;
+    }
+
+    .hamburger-menu {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger-menu div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .nav-links-mobile {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      background-color: #343a40;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+
+    .nav-links-mobile a {
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      border-top: 1px solid #444;
+    }
+
+    .navbar .dropdown-content {
+            display: none;
+            position: absolute;
+            padding-top: 5px;
+            background-color: #343a40;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            /* top: 100%; */
+        }
+
+        .navbar .dropdown-content a {
+            color: #fff;
+            padding: 0.875rem 1rem;
+            text-decoration: none;
+            display: block;
+        }
+
+        .navbar .dropdown-content a:hover {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .navbar .dropdown:hover .dropdown-content {
+            display:block;
+        }
+
+
+    #menu-toggle:checked ~ .nav-links-mobile {
+      display: flex;
+    }
+
+    .about-us {
+    margin-bottom: 2.5rem;
+    background-color: #f8f9fa;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 90vw;
+      margin: 2.5rem auto;
+    }
+
+    .about-us h1{
+        font-size: 4.5rem;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        text-align: left;
+    }
+    .about-us h2{
+        margin-top: 10px;
+        text-align: left;
+    }
+
+    .about-us {
+    margin-bottom: 2.5rem;
+    background-color: #f8f9fa;
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 90vw;
+    margin: 2.5rem auto;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.about-content .text {
+    flex: 1;
+    margin-left: 1.875rem; /* Adjust the spacing between text and image */
+}
+
+.about-content .image img{
+    flex-shrink: 0;
+     width: 300px;
+    height: auto;
+    max-width: 100%;
+}
+
+.about-us h2 {
+    margin-top: 0;
+    text-align: left;
+    size: 100%;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.625rem;
+}
+     p{
+        line-height: 2;
+     }
+
+     .company-info {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    text-align: left;
+}
+
+.company-info h1{
+    margin-bottom: 0;
+}
+.company-info p{
+  margin-left: 0;
+}
+
+    @keyframes slideInFromLeft {
+      0% {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+       .navbar .nav-links, .btn {
+        display: none;
+      }
+
+
+      /* .navbar {
+        flex-direction: column;
+        align-items: center;
+    } */
+
+     .hamburger-menu {
+    display: flex;
+    order: 3;
+    padding-left: 1rem;
+}
+.company-info {
+    order: 2;
+    padding-bottom: 1rem;
+    text-align: left;
+    flex-grow: 1;
+}
+.company-info h1{
+  text-align: left;
+}
+
+.company-info p{
+  display: none;
+}
+.logo {
+    order: 1;
+    max-width: 4rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 1rem;
+}
+
+.about-content {
+    flex-direction: column;
+}
+
+.about-content .image {
+    order: -1;
+    margin-bottom: 1rem;
+}
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.625rem;
+      }
+
+      .navbar .nav-links li {
+        margin-right: 0.625rem;
+      }
+
+      .navbar .btn-login,
+      .navbar .btn-signup {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.875rem;
+      }
+
+      .company-info h1{
+        text-align: center;
+      }
+      .company-info p{
+        text-align: center;
+      }
+    }
+</style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+        <img src="/images/logo-copy.png" alt="Arohana Trading Academy Logo" class="logo">
+        <div class="company-info">
+            <h1>Arohana Trading Academy</h1>
+            <p class="slogan" style="margin-left: 10px;">Build wealth with little intelligence and a lot of commonsense.</p>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+        <div class="hamburger-menu" onclick="document.getElementById('menu-toggle').checked = !document.getElementById('menu-toggle').checked;">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/auth/news">News</a></li>
+            <li class="dropdown">
+                <a href="#">Stocks</a>
+                <div class="dropdown-content">
+                    <a href="/auth/elite">Elite Stocks</a>
+                    <a href="/auth/current-stocks">Current Stocks</a>
+                    <a href="/auth/pastPosts">Past Stocks</a>
+                    <a href="/auth/recent-updates">Recent Updates</a>
+                </div>
+            </li>
+            <li><a href="/auth/profile">Profile</a></li>
+        </ul>
+        <div class="btn">
+            <button type="submit" class="btn-login" onclick="const cookies = document.cookie.split(';');
+            for (let c = 0; c < cookies.length; c++) {
+                const d = window.location.hostname.split('.');
+                while (d.length > 0) {
+                    const cookieBase = encodeURIComponent(cookies[c].split(';')[0].split('=')[0]) +
+                          '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+                    const p = location.pathname.split('/');
+                    document.cookie = cookieBase + '/';
+                    while (p.length > 0) {
+                        document.cookie = cookieBase + p.join('/');
+                        p.pop();
+                    };
+                    d.shift();
+                }
+            }
+            window.location.href = '/'">Logout</button>
+        </div>
+    <div class="nav-links-mobile">
+        <ul>
+            <li><a href="/auth/news">News</a></li>
+            <li><a href="/auth/profile">Profile</a></li>
+            <li><a href="/auth/elite">Elite Stocks</a></li>
+            <li><a href="/auth/current-stocks">Current Stocks</a></li>
+            <li><a href="/auth/postPosts">Past Stocks</a></li>
+            <li><a href="/auth/recent-updates">Recent Updates</a></li>
+        </ul>
+    </div>
+    <nav></nav>
+</header>
+  <section id="contact" class="about-us" hx-boost="true" hx-get="/auth/posts" hx-trigger="load" hx-target="#container" hx-on:htmx:after-request="calculateGrowth(this)">
+    <h2>Posts</h2>
+    <div id="container" class="container">
+      Loading Posts...
+    </div>
+    </section>
+    	<script>
+    async function calculateGrowth(element) {
+    console.log('Element:', element);
+    var rows = document.getElementsByTagName("tr")
+    console.log(rows)
+    //const row = element.closest('tr');
+    for(let i=1; i<rows.length;i++){
+    var row = rows[i]
+    console.log('Row:', row);
+    
+    if (!row) {
+        console.error('No row found');
+        return;
+    }
+
+    const buyingPriceElement = row.querySelector('.buying-price');
+    const currentPriceElement = row.querySelector('.current-price');
+    const growthElement = row.querySelector('.growth');
+
+    console.log('Buying Price Element:', buyingPriceElement);
+    console.log('Current Price Element:', currentPriceElement);
+    console.log('Growth Element:', growthElement);
+
+    if (!buyingPriceElement || !currentPriceElement || !growthElement) {
+        console.error('Missing required elements');
+        return;
+    }
+
+
+    const buyingPrice = parseFloat(buyingPriceElement.textContent);
+    const currentPrice = parseFloat(currentPriceElement.textContent);
+
+    if (!isNaN(buyingPrice) && !isNaN(currentPrice)) {
+        const growth = currentPrice - buyingPrice;
+        const growthPercentage = (growth / buyingPrice) * 100;
+        growthElement.textContent = `${growth.toFixed(2)} (${growthPercentage.toFixed(2)}%)`;
+        
+        growthElement.style.color = growth > 0 ? 'green' : (growth < 0 ? 'red' : '');
+    } else {
+        growthElement.textContent = 'N/A';
+    }}
+}
+    </script>
+  <footer>
+    <style>
+      /* .contact-us{
+        text-align: left;
+      } */
+    </style>
+              <div class="contact-us">
+            <a href="/privacy">Privacy policy</a>
+            <p>Contact Us</p>
+            <p>Email: <a href="mailto:info@arohanatradingacademy.org">info@arohanatradingacademy.org</a></p>
+            <p>Phone: +91 8310383448</p>
+              <div class="social-media">
+                <a href="https://www.instagram.com/kmswealthcreations?igsh=MWRzc2R0a3hsbGYzaQ==">Instagram</a> | 
+                <a href="https://x.com/kmswcs">Twitter</a> 
+            </div>
+          </div>
+    <p>&copy; 2024 Arohana Trading Academy. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Sign Up</title>
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.js" integrity="sha384-qbtR4rS9RrUMECUWDWM2+YGgN3U4V4ZncZ0BvUcg9FGct0jqXz3PUdVpU1p0yrXS" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('/images/kms.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: left;
+        }
+
+        .background-image-text {
+            color: #ffffff;
+            font-size: 30px;
+            font-weight: bold;
+            background: linear-gradient(45deg, rgba(0, 123, 255, 0.8), rgba(40, 167, 69, 0.8));
+            padding: 8px 14px;
+            border-radius: 20px;
+            max-width: 80%;
+            line-height: 1.6;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            transform: translateY(-50%);
+            animation: fadeIn 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .register-btn {
+            background-color: #28a745;
+            border: none;
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            outline: none;
+        }
+
+        .register-btn:hover {
+            background-color: #218838;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 50px auto;
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        .container h1 {
+            font-size: 40px;
+            margin-left: 8px;
+            padding: 0;
+            color: #007bff;
+            text-shadow: 2px 2px 4px rgba(0, 123, 255, 0.2);
+        }
+
+        .container img {
+            max-width: 120px;
+            height: auto;
+            margin-right: 8px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+            font-weight: 600;
+            font-size: 18px;
+            letter-spacing: 1px;
+            background-color: rgba(0, 123, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+
+        .login {
+            background-color: #007bff;
+        }
+
+        .signup {
+            background-color: #28a745;
+        }
+
+        .links a:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+                background-size: 60% auto;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-left: 0;
+                margin-top: 12px;
+            }
+
+            .container img {
+                margin: 0;
+                margin-bottom: 6px;
+            }
+
+            .links {
+                margin-top: 12px;
+                gap: 10px;
+            }
+
+            .links a {
+                padding: 6px 16px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="/images/KMS1.png" alt="Arohana Trading Academy">
+    <h1>Arohana Trading Academy</h1>
+    <div class="links">
+        <a href="login.html" class="login">Login</a>
+        <a href="signup.html" class="signup">Sign Up</a>
+    </div>
+</div>
+<div class="background-image">
+    <div class="background-image-text">
+        Click on Register to<br>
+         Join our Trading Session
+        <button class="register-btn">Register</button>
+    </div>
+</div>
+
+</body>
+</html>
