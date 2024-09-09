@@ -348,6 +348,7 @@ func login(ctx context.Context, client *db.Client)gin.HandlerFunc{
 		}
 
 		elite:=userData.Elite
+		fmt.Println("elite:",elite)
 		if elite{
 			utils.SetEliteCookie(c)	
 			erro:=utils.GenerateTokensAndSetCookies(userData.Username,c)
@@ -946,6 +947,7 @@ func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			return
 		}
 		stored_password = userData.Password
+		elite := userData.Elite
 		stored_username := userData.Username
 
 		if username != stored_username{
@@ -968,7 +970,10 @@ func appLogin(ctx context.Context, client *db.Client)gin.HandlerFunc{
 			c.String(http.StatusInternalServerError,"Couldn't generate token. Please try again")
 			return
 		}
-		c.String(http.StatusOK,username)
+		c.JSON(http.StatusOK,gin.H{
+			"username":username,
+			"elite":elite,
+		})
 	}
 }
 
